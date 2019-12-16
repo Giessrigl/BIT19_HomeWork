@@ -1,0 +1,6 @@
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\obj\Debug\TurtleGraphics.csprojAssemblyReference.cache
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\bin\Debug\TurtleGraphics.exe.config
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\bin\Debug\TurtleGraphics.exe
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\bin\Debug\TurtleGraphics.pdb
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\obj\Debug\TurtleGraphics.exe
+C:\Users\Giessrigl\source\repos\TurtleGraphics\TurtleGraphics\obj\Debug\TurtleGraphics.pdb
