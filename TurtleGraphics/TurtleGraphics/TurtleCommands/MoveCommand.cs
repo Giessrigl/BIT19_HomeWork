@@ -4,6 +4,7 @@
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
+    using TurtleGraphics.TurtleMoveWatcher;
     using System.Threading;
 
     public class MoveCommand : ITurtleCommand
@@ -34,7 +35,14 @@
                 string turtleValue = possibleCommands[2];
                 if (int.TryParse(turtleValue, out int result))
                 {
-                    return new MoveCommand(result);
+                    if (result > 0)
+                    {
+                        return new MoveCommand(result);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
@@ -46,7 +54,14 @@
                 string turtleValue = possibleCommands[3];
                 if (int.TryParse(turtleValue, out int result))
                 {
-                    return new MoveCommand(result);
+                    if (result > 0)
+                    {
+                        return new MoveCommand(result);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
                 else
                 {
@@ -81,8 +96,7 @@
                     break;
 
             }
-            args.Position = position;  // FÜGE HIER EVENT AN ZUM PRÜFEN OB 
-            // POSITION NICHT AUßERHALB DES WINDOWS
+            args.Position = position;
             Thread.Sleep(1000);
         }
 

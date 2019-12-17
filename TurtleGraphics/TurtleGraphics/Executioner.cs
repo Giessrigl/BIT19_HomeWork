@@ -13,71 +13,43 @@ namespace TurtleGraphics
 
     public class Executioner
     {
-        private User User;
         private ExecutionRenderer Renderer;
         private WindowSettings Options;
         private DrawBoard Board;
-
+        
         private TurtleArguments currentargs;
-        private List<Thread> TurtleThreads;
 
         private static object locker = new object();
 
-        public Executioner(User user)
+        public Executioner(TurtleArguments args)
         {
-            this.User = user;
+            this.currentargs = args;
             this.Renderer = new ExecutionRenderer();
             this.Options = new WindowSettings();
-            this.Board = new DrawBoard(Options.GetWindowWidth(), Options.GetWindowHeight());
-            this.TurtleThreads = new List<Thread>();
+            Board.Accept(Options); // to determine the width and height!
         }
 
         public void Execute()
         {
-            foreach (TurtleArguments args in User.Turtleargs)
-            {
-                this.currentargs = args;
-                Thread thread = new Thread(ExecuteCommands);
-                thread.Start();
-                TurtleThreads.Add(thread);
-            }
-
-            //do
-            //{
-            //    if (TurtleThreads.Count < 1)
-            //    {
-            //        KeyBoardWatcher keyBoardWatcher = new KeyBoardWatcher();
-            //        keyBoardWatcher.OnKeyPressed += TerminateApplication;
-            //    }
-            //}
-            //while (true);
+            ThreadStart threadDelegate = new ThreadStart(ExecuteCommands);
+            Thread thread = new Thread(threadDelegate);
+            thread.Start();
         }
 
         private void ExecuteCommands()
         {
-            TurtleArguments args = currentargs;
             do
             {
-                lock (locker)
-                {
-                    Board.Accept(args); // Tracks are stamped on the drawboard
-                    args.Accept(args.Turtle.Commands[0]); // command execution
+                Board.Accept(currentargs); // Tracks are stamped on the drawboard
+                Options.Accept(currentargs); // CHECK IF MOVE IS ALLOWED TO MOVE! IF NOT DELETE THE FIRST COMMAND!
+                currentargs.Accept(currentargs.Turtle.Commands[0]); // command execution
 
-                    //args.Turtle.Commands[0].Visit();
+                currentargs.Turtle.Commands.RemoveAt(0);
 
-                    args.Turtle.Commands.RemoveAt(0);
-
-
-                    Board.Accept(this.Renderer); // draws the tracks
-                    args.Accept(this.Renderer); // draws the turtles
-                }
+                Board.Accept(this.Renderer); // draws the tracks
+                currentargs.Accept(this.Renderer); // draws the turtles
             }
-            while (0 < args.Turtle.Commands.Count - 1);
-        }
-
-        private void TerminateApplication(object sender, OnKeyPressedEventArgs eventArgs)
-        {
-            Environment.Exit(0);
+            while (0 < currentargs.Turtle.Commands.Count);
         }
     }
 }

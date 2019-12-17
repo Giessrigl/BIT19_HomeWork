@@ -1,6 +1,7 @@
 ﻿namespace TurtleGraphics
 {
     using System;
+    using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
@@ -11,6 +12,7 @@
         {
             this.boardcontent = new char[width, height];
             this.contentcolors = new ConsoleColor[width, height];
+            this.TrackPositions = new List<Position>();
         }
 
         public int Width
@@ -28,6 +30,8 @@
                 return this.boardcontent.GetLength(1);
             }
         }
+
+        public List<Position> TrackPositions;
 
         public char[,] boardcontent
         {
@@ -53,6 +57,7 @@
             }
 
             this.boardcontent[position.Left, position.Top] = character;
+            TrackPositions.Add(position);
         }
 
         public ConsoleColor GetColor(Position position)

@@ -24,8 +24,18 @@
 
         public void Visit(User user)
         {
-            Executioner executor = new Executioner(user);
-            executor.Execute();
+            foreach (TurtleArguments args in user.Turtleargs)
+            {
+                Executioner executor = new Executioner(args);
+                executor.Execute();
+            }
+
+            do
+            {
+                KeyBoardWatcher keyBoardWatcher = new KeyBoardWatcher();
+                keyBoardWatcher.OnKeyPressed += TerminateApplication;
+            }
+            while (true);
         }
 
         public void Visit(InputHandler handler)
@@ -40,6 +50,11 @@
                 throw new ArgumentNullException();
             }
             
+        }
+
+        private void TerminateApplication(object sender, OnKeyPressedEventArgs eventArgs)
+        {
+            Environment.Exit(0);
         }
 
         public void Visit(ErrorMessage errormessage)
