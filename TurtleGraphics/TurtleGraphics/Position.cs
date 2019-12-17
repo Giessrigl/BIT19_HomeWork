@@ -7,9 +7,17 @@
 
     public struct Position
     {
-        public int Left;
+        public int Left
+        {
+            get;
+            set;
+        }
 
-        public int Top;
+        public int Top
+        {
+            get;
+            set;
+        }
 
         public Position(int left, int top)
         {

@@ -66,7 +66,11 @@
 
         public void Visit(DrawBoard board)
         {
-            
+            if (this.Draw == true)
+            {
+                board.SetChar(this.Position, this.TrackSymbol);
+                board.SetColor(this.Position, this.TrackColor);
+            }
         }
 
         public void Visit(TurtleArguments user)

@@ -105,7 +105,7 @@
                     break;
             }
 
-            if (turtleCommand != null)
+            if (turtleCommand != null && editorValue > 0)
             {
                 TurtleValue = turtleCommand.GetValue();
                 return new InsertCommand(editorValue, turtleCommand);
@@ -123,7 +123,7 @@
                 throw new ArgumentNullException();
             }
 
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Insert(EditorValue, turtleCommand);
+            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Insert(EditorValue - 1, turtleCommand);
         }
 
         public void Visit(InputHandler handler)
@@ -134,7 +134,7 @@
             }
 
             EditorLine line = new EditorLine(turtleCommand.ToString(), TurtleValue);
-            handler.EditorReadOut.Insert(EditorValue, line);
+            handler.EditorReadOut.Insert(EditorValue - 1, line);
         }
 
         public void Visit(ErrorMessage errormessage)

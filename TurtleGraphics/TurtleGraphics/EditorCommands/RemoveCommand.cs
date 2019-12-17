@@ -28,7 +28,7 @@
                 return null;
             }
 
-            string editorValue = possibleCommands[1]; // Chcke if integer between 0 and turtlecommands.count -1 ! user this.user!
+            string editorValue = possibleCommands[1]; 
 
             try
             {

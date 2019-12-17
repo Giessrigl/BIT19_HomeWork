@@ -4,6 +4,7 @@
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
+    using System.Threading;
 
     public class MoveCommand : ITurtleCommand
     {
@@ -63,12 +64,31 @@
 
         public void Visit(TurtleArguments args)
         {
-           
+            Position position = args.Position;
+            switch(args.TurtleDirection)
+            {
+                case 0:
+                    position.Left++;
+                    break;
+                case 90:
+                    position.Top++;
+                    break;
+                case 180:
+                    position.Left--;
+                    break;
+                case 270:
+                    position.Top--;
+                    break;
+
+            }
+            args.Position = position;  // FÜGE HIER EVENT AN ZUM PRÜFEN OB 
+            // POSITION NICHT AUßERHALB DES WINDOWS
+            Thread.Sleep(1000);
         }
 
         public void Visit(DrawBoard board)
         {
-           
+           // do nothing.
         }
     }
 }

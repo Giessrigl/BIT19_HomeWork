@@ -51,7 +51,6 @@
     <Compile Include="Interfaces\IEditorVisitable.cs" />
     <Compile Include="Interfaces\IEditorVisitor.cs" />
     <Compile Include="Interfaces\IExecutionVisitor.cs" />
-    <Compile Include="Interfaces\IRenderer.cs" />
     <Compile Include="KeyBoardWatcher.cs" />
     <Compile Include="OnKeyPressedEventArgs.cs" />
     <Compile Include="Editor.cs" />
@@ -67,8 +66,6 @@
     <Compile Include="Interfaces\IEditorCommand.cs" />
     <Compile Include="InputHandler.cs" />
     <Compile Include="EditorCommands\InsertCommand.cs" />
-    <Compile Include="Interfaces\IEditorLineCheckerVisitable.cs" />
-    <Compile Include="Interfaces\IEditorLineCheckerVisitor.cs" />
     <Compile Include="Interfaces\ITurtleCommand.cs" />
     <Compile Include="TurtleCommands\MoveCommand.cs" />
     <Compile Include="EditorCommands\NewCommand.cs" />
@@ -87,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

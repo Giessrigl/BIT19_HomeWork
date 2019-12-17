@@ -5,7 +5,7 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class EditorlineParser : IEditorLineCheckerVisitable
+    public class EditorlineParser
     {
         public IEditorCommand Parse(string commandLine)
         {
@@ -47,16 +47,6 @@
                         return null;
                 }
             }
-        }
-
-        public void Accept(IEditorLineCheckerVisitor visitor)
-        {
-            if (visitor == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            visitor.Visit(this);
         }
     }
 }

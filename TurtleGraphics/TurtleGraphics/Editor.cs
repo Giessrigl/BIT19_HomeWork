@@ -8,7 +8,7 @@
     public class Editor
     {
         private User User;
-        private IRenderer EditorRenderer;
+        private EditorRenderer EditorRenderer;
         private InputHandler Handler;
         private EditorlineParser Checker;
         private WindowSettings Options;
