@@ -41,7 +41,7 @@
             errormessage.Message = "We could not add this entry.";
         }
 
-        public static IEditorCommand Check(string commandLine)
+        public static IEditorCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -61,35 +61,35 @@
             switch (command)
             {
                 case "move":
-                    turtleCommand = MoveCommand.Check(commandLine);
+                    turtleCommand = MoveCommand.Parse(commandLine);
                     break;
 
                 case "rotate":
-                    turtleCommand = RotateCommand.Check(commandLine);
+                    turtleCommand = RotateCommand.Parse(commandLine);
                     break;
 
                 case "sleep":
-                    turtleCommand = SleepCommand.Check(commandLine);
+                    turtleCommand = SleepCommand.Parse(commandLine);
                     break;
 
                 case "penup":
-                    turtleCommand = PenUpCommand.Check(commandLine);
+                    turtleCommand = PenUpCommand.Parse(commandLine);
                     break;
 
                 case "pendown":
-                    turtleCommand = PenDownCommand.Check(commandLine);
+                    turtleCommand = PenDownCommand.Parse(commandLine);
                     break;
 
                 case "changecolor":
-                    turtleCommand = ChangeColorCommand.Check(commandLine);
+                    turtleCommand = ChangeColorCommand.Parse(commandLine);
                     break;
 
                 case "changetracksymbol":
-                    turtleCommand = ChangeTrackSymbolCommand.Check(commandLine);
+                    turtleCommand = ChangeTrackSymbolCommand.Parse(commandLine);
                     break;
                     
                 case "changeturtlesymbol":
-                    turtleCommand = ChangeTurtleSymbolCommand.Check(commandLine);
+                    turtleCommand = ChangeTurtleSymbolCommand.Parse(commandLine);
                     break;
             }
 

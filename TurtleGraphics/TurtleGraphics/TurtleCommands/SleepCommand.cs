@@ -4,6 +4,7 @@
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
+    using System.Threading;
 
     public class SleepCommand : ITurtleCommand
     {
@@ -14,12 +15,7 @@
             this.TurtleValue = turtleValue;
         }
 
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -67,6 +63,16 @@
         public string GetValue()
         {
             return this.TurtleValue.ToString();
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            Thread.Sleep(TurtleValue);
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

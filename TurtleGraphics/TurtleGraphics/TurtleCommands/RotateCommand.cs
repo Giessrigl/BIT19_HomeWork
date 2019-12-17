@@ -13,17 +13,12 @@
             private set;
         }
 
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
         public RotateCommand(int turtleValue)
         {
             this.TurtleValue = turtleValue;
         }
 
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -32,7 +27,7 @@
 
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (2 > possibleCommands.Length)
+            if (2 >= possibleCommands.Length)
             {
                 return null;
             }
@@ -115,6 +110,16 @@
                 default:
                     return false;
             }
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            args.TurtleDirection = (args.TurtleDirection + TurtleValue) % 360;
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

@@ -5,7 +5,7 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class DrawBoard
+    public class DrawBoard : IExecutionVisitable
     {
         public DrawBoard(int width, int height)
         {
@@ -29,8 +29,16 @@
             }
         }
 
-        public char[,] boardcontent;
-        public ConsoleColor[,] contentcolors;
+        public char[,] boardcontent
+        {
+            get;
+            private set;
+        }
+        public ConsoleColor[,] contentcolors
+        {
+            get;
+            private set;
+        }
 
         public char GetChar(Position position)
         {
@@ -39,7 +47,32 @@
 
         public void SetChar(Position position, char character)
         {
+            if (character == '\0')
+            {
+                throw new ArgumentNullException();
+            }
+
             this.boardcontent[position.Left, position.Top] = character;
+        }
+
+        public ConsoleColor GetColor(Position position)
+        {
+            return this.contentcolors[position.Left, position.Top];
+        }
+
+        public void SetColor(Position position, ConsoleColor color)
+        {
+            this.contentcolors[position.Left, position.Top] = color;
+        }
+
+        public void Accept(IExecutionVisitor visitor)
+        {
+            if (visitor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            visitor.Visit(this);
         }
     }
 }

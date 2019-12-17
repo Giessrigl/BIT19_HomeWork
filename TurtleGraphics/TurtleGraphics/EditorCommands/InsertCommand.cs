@@ -27,7 +27,7 @@
             private set;
         }
 
-        public static IEditorCommand Check(string commandLine)
+        public static IEditorCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -65,42 +65,43 @@
                 newpossibleCommands[1] = possibleCommands[2];
                 newpossibleCommands[2] = possibleCommands[3];
             }
-            
+
+            commandLine = string.Join(" ", newpossibleCommands);
             string command = newpossibleCommands[1].ToLower();
             ITurtleCommand turtleCommand = null;
 
             switch (command)
             {
                 case "move":
-                    turtleCommand = MoveCommand.Check(commandLine);
+                    turtleCommand = MoveCommand.Parse(commandLine);
                     break;
 
                 case "rotate":
-                    turtleCommand = RotateCommand.Check(commandLine);
+                    turtleCommand = RotateCommand.Parse(commandLine);
                     break;
 
                 case "sleep":
-                    turtleCommand = SleepCommand.Check(commandLine);
+                    turtleCommand = SleepCommand.Parse(commandLine);
                     break;
 
                 case "penup":
-                    turtleCommand = PenUpCommand.Check(commandLine);
+                    turtleCommand = PenUpCommand.Parse(commandLine);
                     break;
 
                 case "pendown":
-                    turtleCommand = PenDownCommand.Check(commandLine);
+                    turtleCommand = PenDownCommand.Parse(commandLine);
                     break;
 
                 case "changecolor":
-                    turtleCommand = ChangeColorCommand.Check(commandLine);
+                    turtleCommand = ChangeColorCommand.Parse(commandLine);
                     break;
 
                 case "changetracksymbol":
-                    turtleCommand = ChangeTrackSymbolCommand.Check(commandLine);
+                    turtleCommand = ChangeTrackSymbolCommand.Parse(commandLine);
                     break;
 
                 case "changeturtlesymbol":
-                    turtleCommand = ChangeTurtleSymbolCommand.Check(commandLine);
+                    turtleCommand = ChangeTurtleSymbolCommand.Parse(commandLine);
                     break;
             }
 

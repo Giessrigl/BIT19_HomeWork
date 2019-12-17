@@ -10,9 +10,12 @@
     {
         public InputHandler()
         {
+            this.PageNumber = 1;
             this.EditorReadOut = new List<EditorLine>();
             this.text = "";
         }
+
+        public int PageNumber;
 
         public List<EditorLine> EditorReadOut
         {
@@ -42,7 +45,14 @@
                 }
                 text = newText;
             }
-
+            else if (cki.Key == ConsoleKey.LeftArrow && this.PageNumber > 1)
+            {
+                this.PageNumber--;
+            }
+            else if (cki.Key == ConsoleKey.RightArrow && this.PageNumber < (this.EditorReadOut.Count + 9) / 10)
+            {
+                this.PageNumber++;
+            }
             else if (text.Length < Console.WindowWidth)
             {
                 text += cki.KeyChar;

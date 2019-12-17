@@ -1,8 +1,11 @@
 ﻿namespace TurtleGraphics
 {
     using System;
+    using TurtleGraphics.Interfaces;
+    using TurtleGraphics.EditorCommands;
+    using TurtleGraphics.TurtleCommands;
 
-    public class TurtleArguments
+    public class TurtleArguments : IExecutionVisitor, IExecutionVisitable
     {
         public TurtleArguments()
         {
@@ -12,7 +15,6 @@
             this.TrackSymbol = '+';
             this.TrackColor = ConsoleColor.White;
             this.Draw = false;
-            this.SleepTime = 1000;
         }
 
         public Turtle Turtle
@@ -57,10 +59,19 @@
             set;
         }
 
-        public int SleepTime
+        public void Accept(IExecutionVisitor visitor)
         {
-            get;
-            set;
+            visitor.Visit(this);
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            
+        }
+
+        public void Visit(TurtleArguments user)
+        {
+
         }
     }
 }

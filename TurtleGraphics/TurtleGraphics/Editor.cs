@@ -5,29 +5,29 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class Overseer
+    public class Editor
     {
         private User User;
-        private ConsoleRenderer Renderer;
+        private IRenderer EditorRenderer;
         private InputHandler Handler;
-        private EditorlineChecker Checker;
-        private ConsoleRelatedOptions Options;
+        private EditorlineParser Checker;
+        private WindowSettings Options;
         private ErrorMessage ErrorMessage;
 
-        public Overseer()
+        public Editor()
         {
 
-            this.Options = new ConsoleRelatedOptions();
+            this.Options = new WindowSettings();
             this.User = new User();
-            this.Renderer = new ConsoleRenderer();
+            this.EditorRenderer = new EditorRenderer();
             this.Handler = new InputHandler();
-            this.Checker = new EditorlineChecker();
+            this.Checker = new EditorlineParser();
             this.ErrorMessage = new ErrorMessage("");
         }
 
         public void Start()
         {
-            Options.SetConsoleWindow(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Options.SetWindow(Console.LargestWindowWidth, Console.LargestWindowHeight);
 
             KeyBoardWatcher keyBoardWatcher = new KeyBoardWatcher();
             keyBoardWatcher.OnKeyPressed += UseKey;
@@ -42,27 +42,27 @@
                 case ConsoleKey.Enter:
                     if (!string.IsNullOrWhiteSpace(this.Handler.text))
                     {
-                        IEditorCommand command = Checker.Check(Handler.text);
+                        IEditorCommand command = Checker.Parse(Handler.text);
                         ErrorMessage.Message = "";
 
-                        if (command != null)
+                        if (command == null)
+                        {
+                            Handler.text = "";
+                            ErrorMessage.Message = "This is not a valid command.";
+                        }
+                        else
                         {
                             try
                             {
+
                                 Handler.text = "";
                                 Handler.Accept(command);
                                 User.Accept(command);
-                                Handler.Accept(Renderer);
                             }
                             catch
                             {
                                 ErrorMessage.Accept(command);
                             }
-                        }
-                        else
-                        {
-                            Handler.text = "";
-                            ErrorMessage.Message = "This is not a valid command.";
                         }
                     }
                     break;
@@ -72,8 +72,8 @@
                     Handler.Start(cki);
                     break;
             }
-            Handler.Accept(Renderer);
-            ErrorMessage.Accept(Renderer);
+            Handler.Accept(EditorRenderer);
+            ErrorMessage.Accept(EditorRenderer);
         }
     }
 }

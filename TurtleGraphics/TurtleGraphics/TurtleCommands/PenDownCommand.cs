@@ -7,12 +7,7 @@
 
     public class PenDownCommand : ITurtleCommand
     {
-        public void Execute()
-        {
-            throw new ArgumentNullException();
-        }
-
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -50,6 +45,16 @@
         public string GetValue()
         {
             return " ";
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            args.Draw = true;
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

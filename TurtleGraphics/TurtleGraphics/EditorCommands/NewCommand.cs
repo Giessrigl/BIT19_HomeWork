@@ -7,7 +7,7 @@
 
     public class NewCommand : IEditorCommand
     {
-        public static IEditorCommand Check(string commandLine)
+        public static IEditorCommand Parse(string commandLine)
         {
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             

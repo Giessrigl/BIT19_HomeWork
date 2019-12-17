@@ -14,12 +14,7 @@
             this.TurtleValue = turtleValue;
         }
 
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -36,12 +31,12 @@
             if (possibleCommands.Length == 3 && possibleCommands[2].Length == 1)
             {
                 char turtleValue = char.Parse(possibleCommands[2]);
-                return new ChangeTrackSymbolCommand(turtleValue);
+                return new ChangeTurtleSymbolCommand(turtleValue);
             }
             else if (possibleCommands.Length == 4 && possibleCommands[3].Length == 1)
             {
                 char turtleValue = char.Parse(possibleCommands[3]);
-                return new ChangeTrackSymbolCommand(turtleValue);
+                return new ChangeTurtleSymbolCommand(turtleValue);
             }
             else
             {
@@ -53,6 +48,16 @@
         public string GetValue()
         {
             return this.TurtleValue.ToString();
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            args.TurtleSymbol = TurtleValue;
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

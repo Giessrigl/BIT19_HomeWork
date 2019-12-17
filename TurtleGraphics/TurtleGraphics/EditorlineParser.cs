@@ -5,9 +5,9 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class EditorlineChecker : IEditorLineCheckerVisitable
+    public class EditorlineParser : IEditorLineCheckerVisitable
     {
-        public IEditorCommand Check(string commandLine)
+        public IEditorCommand Parse(string commandLine)
         {
             if (string.IsNullOrWhiteSpace(commandLine))
             {
@@ -26,22 +26,22 @@
                 switch (editorCommand)
                 {
                     case "add":
-                        return AddCommand.Check(commandLine);
+                        return AddCommand.Parse(commandLine);
 
                     case "clear":
-                        return ClearCommand.Check(commandLine);
+                        return ClearCommand.Parse(commandLine);
 
                     case "insert":
-                        return InsertCommand.Check(commandLine);
+                        return InsertCommand.Parse(commandLine);
 
                     case "remove":
-                        return RemoveCommand.Check(commandLine);
+                        return RemoveCommand.Parse(commandLine);
 
                     case "new":
-                        return NewCommand.Check(commandLine);
+                        return NewCommand.Parse(commandLine);
 
                     case "run":
-                        return RunCommand.Check(commandLine);
+                        return RunCommand.Parse(commandLine);
 
                     default:
                         return null;

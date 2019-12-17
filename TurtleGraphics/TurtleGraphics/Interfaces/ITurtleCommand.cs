@@ -1,9 +1,7 @@
 ﻿namespace TurtleGraphics.Interfaces
 {
-    public interface ITurtleCommand
+    public interface ITurtleCommand : IExecutionVisitor
     {
-        void Execute();
-
         string GetValue();
     }
 }

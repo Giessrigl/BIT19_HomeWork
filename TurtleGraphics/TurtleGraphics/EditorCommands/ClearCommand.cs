@@ -7,7 +7,7 @@
 
     public class ClearCommand : IEditorCommand
     {
-        public static IEditorCommand Check(string commandLine) // Finished!
+        public static IEditorCommand Parse(string commandLine) // Finished!
         {
             if (commandLine == null)
             {

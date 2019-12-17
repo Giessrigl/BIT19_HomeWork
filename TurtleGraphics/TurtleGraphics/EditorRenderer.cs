@@ -5,18 +5,24 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class ConsoleRenderer : IRenderer
+    public class EditorRenderer : IEditorVisitor
     {
         public void Visit(InputHandler handler)
         {
-            // TODO Achtung: nur den betreffenden Bereich clearen!
             Console.Clear();
+            int pagenumber = handler.PageNumber;
 
-            for (int i = 0; i < handler.EditorReadOut.Count; i++)
+            if (handler.EditorReadOut.Count > 10)
+            {
+                Console.SetCursorPosition(0, 1);
+                Console.Write("Use the arrow keys to switch between the command sites.");
+            }
+
+            for (int i = 0; i < handler.EditorReadOut.Count + 10 - (pagenumber * 10) && i < 10; i++)
             {
                 Console.SetCursorPosition(0, i + 2);
                 Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write($"{handler.EditorReadOut[i].TurtleCommand}");
+                Console.Write($"{handler.EditorReadOut[pagenumber * 10 - 10 + i].TurtleCommand}");
 
                 string check = handler.EditorReadOut[i].TurtleCommand;
 
@@ -28,11 +34,11 @@
                 {
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                 }
-                Console.Write($" {handler.EditorReadOut[i].TurtleValue}");
+                Console.Write($" {handler.EditorReadOut[pagenumber * 10 - 10 + i].TurtleValue}");
             }
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.SetCursorPosition(0, handler.EditorReadOut.Count + 2);
+            Console.SetCursorPosition(0, 14);
             Console.Write($"{handler.text}");
         }
 

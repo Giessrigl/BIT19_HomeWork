@@ -7,7 +7,7 @@
     {
         static void Main()
         {
-            Overseer overseer = new Overseer();
+            Editor overseer = new Editor();
             overseer.Start();
 
             // DrawBoard board = new DrawBoard(Console.WindowWidth, Console.WindowHeight);

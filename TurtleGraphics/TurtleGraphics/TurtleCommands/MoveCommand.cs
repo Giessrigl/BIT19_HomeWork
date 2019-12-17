@@ -14,12 +14,7 @@
             this.turtleValue = turtleValue;
         }
 
-        public void Execute()
-        {
-            throw new NotImplementedException();
-        }
-
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -66,5 +61,14 @@
             return this.turtleValue.ToString();
         }
 
+        public void Visit(TurtleArguments args)
+        {
+           
+        }
+
+        public void Visit(DrawBoard board)
+        {
+           
+        }
     }
 }

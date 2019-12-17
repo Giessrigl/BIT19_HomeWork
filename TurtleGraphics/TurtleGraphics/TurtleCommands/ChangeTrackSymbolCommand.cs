@@ -14,12 +14,7 @@
             this.TurtleValue = turtleValue;
         }
 
-        public void Execute()
-        {
-            throw new ArgumentNullException();
-        }
-
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -48,6 +43,16 @@
         public string GetValue()
         {
             return this.TurtleValue.ToString();
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            args.TrackSymbol = TurtleValue;
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

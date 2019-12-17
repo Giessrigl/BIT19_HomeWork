@@ -7,9 +7,9 @@
 
     public struct Position
     {
-        public readonly int Left;
+        public int Left;
 
-        public readonly int Top;
+        public int Top;
 
         public Position(int left, int top)
         {

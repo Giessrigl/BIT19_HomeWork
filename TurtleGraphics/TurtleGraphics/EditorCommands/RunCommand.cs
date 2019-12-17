@@ -4,10 +4,11 @@
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
+    using System.Threading;
 
     public class RunCommand : IEditorCommand
     {
-        public static IEditorCommand Check(string commandLine)
+        public static IEditorCommand Parse(string commandLine)
         {
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             
@@ -23,12 +24,22 @@
 
         public void Visit(User user)
         {
-            // Hier gehts weiter zur Execution der Turtle Commands mit Threads!!!!
+            Executioner executor = new Executioner(user);
+            executor.Execute();
         }
 
         public void Visit(InputHandler handler)
         {
-            throw new NotImplementedException();
+            if (handler.EditorReadOut.Count > 1)
+            {
+                handler.EditorReadOut.Clear();
+                handler.text = "";
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
+            
         }
 
         public void Visit(ErrorMessage errormessage)

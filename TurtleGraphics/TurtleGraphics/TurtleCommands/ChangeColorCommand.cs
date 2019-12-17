@@ -9,17 +9,12 @@
     {
         private static ConsoleColor TurtleValue;
 
-        public void Execute()
-        {
-            throw new ArgumentNullException();   
-        }
-
         public ChangeColorCommand(ConsoleColor color)
         {
             TurtleValue = color;
         }
 
-        public static ITurtleCommand Check(string commandLine)
+        public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -35,15 +30,31 @@
 
             if (possibleCommands[1].ToLower() == "changecolor")
             {
-                // check possibleCommands[2] on color!
-                ConsoleColor turtleValue = ConsoleColor.Red;
-                return new ChangeColorCommand(turtleValue);
+                string value = possibleCommands[2][0].ToString().ToUpper();
+                value += possibleCommands[2].ToString().Substring(1).ToLower();
+                ConsoleColor color;
+                if (Enum.TryParse<ConsoleColor>(value, out color))
+                {
+                    return new ChangeColorCommand(color);
+                }
+                else
+                {
+                    return null;
+                }
             }
             else if (possibleCommands[2].ToLower() == "changecolor")
             {
-                // check possibleCommands[3] on color!
-                ConsoleColor turtleValue = ConsoleColor.Red;
-                return new ChangeColorCommand(turtleValue);
+                string value = possibleCommands[2][0].ToString().ToUpper();
+                value += possibleCommands[2].ToString().Substring(1).ToLower();
+                ConsoleColor color;
+                if (Enum.TryParse<ConsoleColor>(value, out color))
+                {
+                    return new ChangeColorCommand(color);
+                }
+                else
+                {
+                    return null;
+                }
             }
 
             return null;
@@ -52,6 +63,16 @@
         public string GetValue()
         {
             return TurtleValue.ToString();
+        }
+
+        public void Visit(TurtleArguments args)
+        {
+            args.TrackColor = TurtleValue;
+        }
+
+        public void Visit(DrawBoard board)
+        {
+            // do nothing.
         }
     }
 }

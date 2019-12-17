@@ -14,7 +14,7 @@
             this.editorValue = editorValue;
         }
 
-        public static IEditorCommand Check(string commandLine)
+        public static IEditorCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -23,7 +23,7 @@
 
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (possibleCommands.Length > 2)
+            if (possibleCommands.Length != 2)
             {
                 return null;
             }

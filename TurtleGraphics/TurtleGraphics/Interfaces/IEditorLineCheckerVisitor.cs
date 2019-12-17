@@ -2,6 +2,6 @@
 {
     public interface IEditorLineCheckerVisitor
     {
-        void Visit(EditorlineChecker checker);
+        void Visit(EditorlineParser checker);
     }
 }
