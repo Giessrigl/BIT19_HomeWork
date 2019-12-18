@@ -71,6 +71,30 @@
                 board.SetTrackChar(this.Position, this.TrackSymbol);
                 board.SetColor(this.Position, this.TrackColor);
             }
+
+            Position position;
+            if (Position.Top < 0)
+            {
+                position = new Position(this.Position.Left, 0);
+            }
+            else if (Position.Top > board.Height)
+            {
+                position = new Position(this.Position.Left, board.Height);
+            }
+            else if (Position.Left < 0)
+            {
+                position = new Position(0, this.Position.Top);
+            }
+            else if (Position.Left > board.Width)
+            {
+                position = new Position(board.Width, this.Position.Top);
+            }
+            else
+            {
+                position = this.Position;
+            }
+
+            this.Position = position;
         }
 
         public void Visit(TurtleArguments user)

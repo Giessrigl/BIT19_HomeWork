@@ -106,7 +106,7 @@
 
         public void Visit(DrawBoard board)
         {
-            // do nothing.
+            // do nothing
         }
     }
 }

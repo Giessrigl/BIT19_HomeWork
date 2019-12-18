@@ -43,15 +43,19 @@ namespace TurtleGraphics
         {
             do
             {
-                currentargs.Accept(currentargs.Turtle.Commands[0]); // command execution
-                currentargs.Turtle.Commands.RemoveAt(0); // remove executed command
-                
+                // maybe change something here, ToDo: look if move is out of windowsize!!
                 Monitor.Enter(locker1);
                 currentargs.Accept(this.Renderer); // draws the turtles
                 Board.Accept(this.Renderer); // draws the tracks
                 Thread.Sleep(50);
                 Monitor.Exit(locker1);
-                Board.Accept(currentargs); // Tracks are stamped on the drawboard, turtle position is added in turtlepositions
+
+                Board.Accept(currentargs); // Tracks are stamped on the drawboard
+                Board.Accept(currentargs.Turtle.Commands[0]);
+                currentargs.Accept(currentargs.Turtle.Commands[0]); // command execution
+                currentargs.Turtle.Commands.RemoveAt(0); // remove executed command
+                
+                
             }
             while (0 < currentargs.Turtle.Commands.Count);
         }
