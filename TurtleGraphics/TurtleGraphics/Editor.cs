@@ -47,7 +47,6 @@
 
                         if (command == null)
                         {
-                            Handler.text = "";
                             ErrorMessage.Message = "This is not a valid command.";
                         }
                         else

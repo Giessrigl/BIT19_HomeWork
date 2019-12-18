@@ -33,7 +33,7 @@
             try
             {
                 int value = int.Parse(editorValue);
-                if (value >= 0)
+                if (value > 0)
                 {
                     return new RemoveCommand(value);
                 }
@@ -54,7 +54,7 @@
                 throw new ArgumentNullException();
             }
            
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.RemoveAt(editorValue);
+            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.RemoveAt(editorValue - 1);
         }
 
         public void Visit(InputHandler handler)
@@ -64,7 +64,7 @@
                 throw new ArgumentNullException();
             }
             
-            handler.EditorReadOut.RemoveAt(editorValue);
+            handler.EditorReadOut.RemoveAt(editorValue - 1);
         }
 
         public void Visit(ErrorMessage errormessage)

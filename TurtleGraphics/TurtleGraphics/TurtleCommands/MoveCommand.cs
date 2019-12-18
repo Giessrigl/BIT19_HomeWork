@@ -4,7 +4,6 @@
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
-    using TurtleGraphics.TurtleMoveWatcher;
     using System.Threading;
 
     public class MoveCommand : ITurtleCommand
@@ -97,12 +96,17 @@
 
             }
             args.Position = position;
+
+            if ((turtleValue - 1) != 0)
+            {
+                args.Turtle.Commands.Insert(1, new MoveCommand(turtleValue - 1));
+            }
             Thread.Sleep(1000);
         }
 
         public void Visit(DrawBoard board)
         {
-           // do nothing.
+            // do nothing.
         }
     }
 }

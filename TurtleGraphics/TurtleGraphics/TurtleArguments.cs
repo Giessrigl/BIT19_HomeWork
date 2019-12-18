@@ -68,7 +68,7 @@
         {
             if (this.Draw == true)
             {
-                board.SetChar(this.Position, this.TrackSymbol);
+                board.SetTrackChar(this.Position, this.TrackSymbol);
                 board.SetColor(this.Position, this.TrackColor);
             }
         }

@@ -30,8 +30,19 @@
 
             if (possibleCommands[1].ToLower() == "changecolor")
             {
-                string value = possibleCommands[2][0].ToString().ToUpper();
-                value += possibleCommands[2].ToString().Substring(1).ToLower();
+                string value = "";
+                if (possibleCommands[2].ToLower().Contains("dark"))
+                {
+                    value += "Dark";
+                    value += possibleCommands[2].Substring(4, 1).ToUpper();
+                    value += possibleCommands[2].Substring(5, possibleCommands[2].Length - 5).ToLower();
+                }
+                else
+                {
+                    value += possibleCommands[2][0].ToString().ToUpper();
+                    value += possibleCommands[2].ToString().Substring(1).ToLower();
+                }
+
                 ConsoleColor color;
                 if (Enum.TryParse<ConsoleColor>(value, out color))
                 {

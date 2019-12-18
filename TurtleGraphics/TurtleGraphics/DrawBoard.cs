@@ -44,12 +44,12 @@
             private set;
         }
 
-        public char GetChar(Position position)
+        public char GetTrackChar(Position position)
         {
             return this.boardcontent[position.Left, position.Top];
         }
 
-        public void SetChar(Position position, char character)
+        public void SetTrackChar(Position position, char character)
         {
             if (character == '\0')
             {
