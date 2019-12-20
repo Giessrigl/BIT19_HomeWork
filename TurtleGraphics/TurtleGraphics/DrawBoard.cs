@@ -10,16 +10,18 @@
     {
         public DrawBoard(int width, int height)
         {
-            this.boardcontent = new char[width, height];
-            this.contentcolors = new ConsoleColor[width, height];
+            this.boardTracks = new char[width, height];
+            this.boardTrackColors = new ConsoleColor[width, height];
             this.TrackPositions = new List<Position>();
+
+            this.BoardTurtles = new List<TurtleArguments>();
         }
 
         public int Width
         {
             get
             {
-                return this.boardcontent.GetLength(0);
+                return this.boardTracks.GetLength(0);
             }
         }
 
@@ -27,26 +29,21 @@
         {
             get
             {
-                return this.boardcontent.GetLength(1);
+                return this.boardTracks.GetLength(1);
             }
         }
 
         public List<Position> TrackPositions;
 
-        public char[,] boardcontent
-        {
-            get;
-            private set;
-        }
-        public ConsoleColor[,] contentcolors
-        {
-            get;
-            private set;
-        }
+        public List<TurtleArguments> BoardTurtles;
+
+        private char[,] boardTracks;
+
+        private ConsoleColor[,] boardTrackColors;
 
         public char GetTrackChar(Position position)
         {
-            return this.boardcontent[position.Left, position.Top];
+            return this.boardTracks[position.Left, position.Top];
         }
 
         public void SetTrackChar(Position position, char character)
@@ -56,18 +53,22 @@
                 throw new ArgumentNullException();
             }
 
-            this.boardcontent[position.Left, position.Top] = character;
-            TrackPositions.Add(position);
+            this.boardTracks[position.Left, position.Top] = character;
+
+            if (!(TrackPositions.Contains(position)))
+            {
+                TrackPositions.Add(position);
+            }
         }
 
-        public ConsoleColor GetColor(Position position)
+        public ConsoleColor GetTrackColor(Position position)
         {
-            return this.contentcolors[position.Left, position.Top];
+            return this.boardTrackColors[position.Left, position.Top];
         }
 
-        public void SetColor(Position position, ConsoleColor color)
+        public void SetTrackColor(Position position, ConsoleColor color)
         {
-            this.contentcolors[position.Left, position.Top] = color;
+            this.boardTrackColors[position.Left, position.Top] = color;
         }
 
         public void Accept(IExecutionVisitor visitor)

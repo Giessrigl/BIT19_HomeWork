@@ -28,7 +28,16 @@
                 throw new ArgumentNullException();
             }
 
-            handler.EditorReadOut.Clear();
+            if (handler.EditorReadOut.Count >= 1)
+            {
+                handler.EditorReadOut.Clear();
+                handler.text = "";
+                handler.PageNumber = 1;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
+            }
         }
 
         public void Visit(User user)
@@ -37,13 +46,13 @@
             {
                 throw new ArgumentNullException();
             }
-
+            
             user.Turtleargs.Add(new TurtleArguments());
         }
 
         public void Visit(ErrorMessage errormessage)
         {
-            errormessage.Message = "We could not add a new turtle.";
+            errormessage.Message = "This turtle must have at least one command before adding a new one.";
         }
     }
 }

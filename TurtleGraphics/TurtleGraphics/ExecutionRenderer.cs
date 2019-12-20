@@ -1,6 +1,7 @@
 ﻿namespace TurtleGraphics
 {
     using System;
+    using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
@@ -9,45 +10,30 @@
     {
         public ExecutionRenderer()
         {
-            Console.Clear();
         }
 
         public void Visit(DrawBoard board)
         {
-            foreach (Position position in board.TrackPositions)
+            Console.Clear();
+
+            for (int i = 0; i < board.TrackPositions.Count; i++)
             {
-                Console.SetCursorPosition(position.Left, position.Top);
-                Console.ForegroundColor = board.GetColor(position);
-                Console.Write($"{board.GetTrackChar(position)}");
+                Console.SetCursorPosition(board.TrackPositions[i].Left, board.TrackPositions[i].Top);
+                Console.ForegroundColor = board.GetTrackColor(board.TrackPositions[i]);
+                Console.Write($"{board.GetTrackChar(board.TrackPositions[i])}");
+            }
+
+            for (int i = 0; i < board.BoardTurtles.Count; i++)
+            {
+                Console.SetCursorPosition(board.BoardTurtles[i].Position.Left, board.BoardTurtles[i].Position.Top);
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write($"{board.BoardTurtles[i].TurtleSymbol}");
             }
         }
 
         public void Visit(TurtleArguments args)
         {
-            if (args.Position.Left >= 0 && args.Position.Top >=0)
-            {
-                if (args.Position.Left < Console.WindowWidth && args.Position.Top < Console.WindowHeight)
-                {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        for (int j = 0; j < 3; j++)
-                        {
-                            try
-                            {
-                                Console.SetCursorPosition(args.Position.Left - 1 + i, args.Position.Top - 1 + j);
-                                Console.Write(" ");
-                            }
-                            catch
-                            {
-
-                            }
-                        }
-                    }
-                    Console.SetCursorPosition(args.Position.Left, args.Position.Top);
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write($"{args.TurtleSymbol}");
-                }
-            }
+            // do nothing.
         }
     }
 }

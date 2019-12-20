@@ -2,12 +2,24 @@
 {
     using System;
     using TurtleGraphics.Interfaces;
+    using System.Collections.Generic;
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
     using System.Threading;
 
     public class RunCommand : IEditorCommand
     {
+        private List<Executioner> Executioners;
+        private WindowSettings Options;
+        private DrawBoard Board;
+
+        public RunCommand()
+        {
+            this.Executioners = new List<Executioner>();
+            this.Options = new WindowSettings();
+            this.Board = new DrawBoard(Options.GetWindowWidth(), Options.GetWindowHeight());
+        }
+
         public static IEditorCommand Parse(string commandLine)
         {
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -24,42 +36,59 @@
 
         public void Visit(User user)
         {
+            Executioner executor;
+
             foreach (TurtleArguments args in user.Turtleargs)
             {
-                Executioner executor = new Executioner(args);
+                executor = new Executioner(args, this.Board);
                 executor.Execute();
             }
 
-            do
+            while (true)
             {
                 KeyBoardWatcher keyBoardWatcher = new KeyBoardWatcher();
-                keyBoardWatcher.OnKeyPressed += TerminateApplication;
+                keyBoardWatcher.OnKeyPressed += CheckIfThreadsFinished;
             }
-            while (true);
+        }
+
+        private void CheckIfThreadsFinished(object sender, OnKeyPressedEventArgs eventArgs)
+        {
+            bool result = true;
+            foreach (Executioner executioner in Executioners)
+            {
+                if (result)
+                {
+                    result = executioner.IsFinished;
+                }
+                else
+                {
+                    TerminateApplication();
+                }
+            }
         }
 
         public void Visit(InputHandler handler)
         {
-            if (handler.EditorReadOut.Count > 1)
+            if (handler.EditorReadOut.Count >= 1)
             {
                 handler.EditorReadOut.Clear();
                 handler.text = "";
             }
             else
             {
-                throw new ArgumentNullException();
+                throw new ArgumentOutOfRangeException();
             }
             
         }
 
-        private void TerminateApplication(object sender, OnKeyPressedEventArgs eventArgs)
+        private void TerminateApplication()
         {
             Environment.Exit(0);
         }
 
         public void Visit(ErrorMessage errormessage)
         {
-            errormessage.Message = "Failed at drawing.";
+            errormessage.Message = "Every turtle must have at least one command to start drawing.";
         }
     }
 }

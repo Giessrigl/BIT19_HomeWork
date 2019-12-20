@@ -31,31 +31,38 @@
 
         public void Start(ConsoleKeyInfo cki)
         {
-            if (cki.Key == ConsoleKey.Spacebar)
+            switch(cki.Key)
             {
-                text += " ";
+                case ConsoleKey.Backspace:
+                    string newText = "";
+                    for (int i = 0; i < text.Length - 1; i++)
+                    {
+                        newText += text[i];
+                    }
+                    text = newText;
+                    
+                    break;
 
-            }
-            else if (cki.Key == ConsoleKey.Backspace && text.Length > 0)
-            {
-                string newText = "";
-                for (int i = 0; i < text.Length - 1; i++)
-                {
-                    newText += text[i];
-                }
-                text = newText;
-            }
-            else if (cki.Key == ConsoleKey.LeftArrow && this.PageNumber > 1)
-            {
-                this.PageNumber--;
-            }
-            else if (cki.Key == ConsoleKey.RightArrow && this.PageNumber < (this.EditorReadOut.Count + 9) / 10)
-            {
-                this.PageNumber++;
-            }
-            else if (text.Length < Console.WindowWidth)
-            {
-                text += cki.KeyChar;
+                case ConsoleKey.LeftArrow:
+                    if (this.PageNumber > 1)
+                    {
+                        this.PageNumber--;
+                    }
+                    break;
+
+                case ConsoleKey.RightArrow:
+                    if (this.PageNumber < (this.EditorReadOut.Count + 9) / 10)
+                    {
+                        this.PageNumber++;
+                    }
+                    break;
+
+                default:
+                    if (!char.IsControl(cki.KeyChar))
+                    {
+                        text += cki.KeyChar;
+                    }
+                    break;
             }
         }
 

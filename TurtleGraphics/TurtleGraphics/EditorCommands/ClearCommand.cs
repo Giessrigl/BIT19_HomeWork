@@ -7,7 +7,7 @@
 
     public class ClearCommand : IEditorCommand
     {
-        public static IEditorCommand Parse(string commandLine) // Finished!
+        public static IEditorCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
@@ -44,6 +44,7 @@
             }
 
             handler.EditorReadOut.Clear();
+            handler.PageNumber = 1;
         }
 
         public void Visit(ErrorMessage errormessage)

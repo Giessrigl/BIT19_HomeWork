@@ -97,7 +97,7 @@
             }
             args.Position = position;
 
-            if ((turtleValue - 1) != 0)
+            if ((turtleValue) != 0)
             {
                 args.Turtle.Commands.Insert(1, new MoveCommand(turtleValue - 1));
             }
@@ -106,7 +106,7 @@
 
         public void Visit(DrawBoard board)
         {
-            // do nothing
+            // do nothing.
         }
     }
 }

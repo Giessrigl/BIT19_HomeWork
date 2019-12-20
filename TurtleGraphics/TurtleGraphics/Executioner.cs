@@ -13,9 +13,9 @@ namespace TurtleGraphics
 
     public class Executioner
     {
+        private Thread thread;
+
         private ExecutionRenderer Renderer;
-        private WindowSettings Options;
-        private DrawBoard Board;
         
         private TurtleArguments currentargs;
 
@@ -23,19 +23,34 @@ namespace TurtleGraphics
 
         private static object locker2 = new object();
 
-        public Executioner(TurtleArguments args)
+        private static object locker3 = new object();
+
+        private DrawBoard Board;
+
+        public bool IsFinished 
+        { 
+            get
+            {
+                if (thread != null)
+                {
+                    throw new NullReferenceException();
+                }
+
+                return !thread.IsAlive;
+            }
+        }
+
+        public Executioner(TurtleArguments args, DrawBoard board)
         {
             this.currentargs = args;
             this.Renderer = new ExecutionRenderer();
-            this.Options = new WindowSettings();
-            this.Board = new DrawBoard(Options.GetWindowWidth(), Options.GetWindowHeight());
-            // Board.Accept(Options); // to determine the width and height!
+            this.Board = board;
         }
 
         public void Execute()
         {
             ThreadStart threadDelegate = new ThreadStart(ExecuteCommands);
-            Thread thread = new Thread(threadDelegate);
+            this.thread = new Thread(threadDelegate);
             thread.Start();
         }
 
@@ -43,21 +58,18 @@ namespace TurtleGraphics
         {
             do
             {
-                // maybe change something here, ToDo: look if move is out of windowsize!!
-                Monitor.Enter(locker1);
-                currentargs.Accept(this.Renderer); // draws the turtles
-                Board.Accept(this.Renderer); // draws the tracks
-                Thread.Sleep(50);
-                Monitor.Exit(locker1);
+                lock(locker1)
+                {
+                    Board.Accept(currentargs); // Tracks and Turtles are stamped on the drawboard
+                    Board.Accept(this.Renderer); // draws the tracks
+                }
 
-                Board.Accept(currentargs); // Tracks are stamped on the drawboard
-                Board.Accept(currentargs.Turtle.Commands[0]);
                 currentargs.Accept(currentargs.Turtle.Commands[0]); // command execution
                 currentargs.Turtle.Commands.RemoveAt(0); // remove executed command
-                
-                
             }
             while (0 < currentargs.Turtle.Commands.Count);
+
+            Board.Accept(currentargs); // Tracks and Turtles are stamped on the drawboard
         }
     }
 }

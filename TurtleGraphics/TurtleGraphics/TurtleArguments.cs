@@ -29,10 +29,34 @@
             set;
         }
 
+        private int turtleDirection;
         public int TurtleDirection
         {
-            get;
-            set;
+            get
+            {
+                return this.turtleDirection;
+            }
+            set
+            {
+                switch(value)
+                {
+                    case 0:
+                        this.turtleDirection = value;
+                        break;
+                    case 90:
+                        this.turtleDirection = value;
+                        break;
+                    case 180:
+                        this.turtleDirection = value;
+                        break;
+                    case 270:
+                        this.turtleDirection = value;
+                        break;
+
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value));
+                }
+            }
         }
 
         public char TurtleSymbol
@@ -66,35 +90,65 @@
 
         public void Visit(DrawBoard board)
         {
-            if (this.Draw == true)
-            {
-                board.SetTrackChar(this.Position, this.TrackSymbol);
-                board.SetColor(this.Position, this.TrackColor);
-            }
+            Position position = this.Position;
 
-            Position position;
             if (Position.Top < 0)
             {
                 position = new Position(this.Position.Left, 0);
+                if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
+                {
+                    if (value > 1)
+                    {
+                        this.Turtle.Commands.RemoveAt(0);
+                    }
+                }
             }
             else if (Position.Top > board.Height)
             {
                 position = new Position(this.Position.Left, board.Height);
+                if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
+                {
+                    if (value > 1)
+                    {
+                        this.Turtle.Commands.RemoveAt(0);
+                    }
+                }
             }
             else if (Position.Left < 0)
             {
                 position = new Position(0, this.Position.Top);
+                if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
+                {
+                    if (value > 1)
+                    {
+                        this.Turtle.Commands.RemoveAt(0);
+                    }
+                }
             }
             else if (Position.Left > board.Width)
             {
                 position = new Position(board.Width, this.Position.Top);
+                if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
+                {
+                    if (value > 1)
+                    {
+                        this.Turtle.Commands.RemoveAt(0);
+                    }
+                }
             }
-            else
+            this.Position = position;
+
+            // Stamp the current track
+            if (this.Draw == true) 
             {
-                position = this.Position;
+                board.SetTrackChar(this.Position, this.TrackSymbol);
+                board.SetTrackColor(this.Position, this.TrackColor);
             }
 
-            this.Position = position;
+            if (!(board.BoardTurtles.Contains(this)))
+            {
+                board.BoardTurtles.Add(this);
+            }
         }
 
         public void Visit(TurtleArguments user)
