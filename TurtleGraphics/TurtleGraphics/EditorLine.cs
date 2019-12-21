@@ -13,48 +13,47 @@
             {
                 throw new ArgumentNullException();
             }
+
             if (turtleValue == null)
             {
                 throw new ArgumentNullException();
             }
 
-            switch (turtleCommand.ToLower())
+            if (turtleCommand.ToString().Contains("MoveCommand"))
             {
-                case "turtlegraphics.turtlecommands.movecommand":
-                    this.TurtleCommand = "Move";
-                    break;
-
-                case "turtlegraphics.turtlecommands.rotatecommand":
-                    this.TurtleCommand = "Rotate";
-                    break;
-
-                case "turtlegraphics.turtlecommands.sleepcommand":
-                    this.TurtleCommand = "Sleep";
-                    break;
-
-                case "turtlegraphics.turtlecommands.penupcommand":
-                    this.TurtleCommand = "PenUp";
-                    break;
-
-                case "turtlegraphics.turtlecommands.pendowncommand":
-                    this.TurtleCommand = "PenDown";
-                    break;
-
-                case "turtlegraphics.turtlecommands.changecolorcommand":
-                    this.TurtleCommand = "ChangeColor";
-                    break;
-
-                case "turtlegraphics.turtlecommands.changetracksymbolcommand":
-                    this.TurtleCommand = "ChangeTrackSymbol";
-                    break;
-
-                case "turtlegraphics.turtlecommands.changeturtlesymbolcommand":
-                    this.TurtleCommand = "ChangeTurtleSymbol";
-                    break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-
+                this.TurtleCommand = "Move";
+            }
+            else if (turtleCommand.ToString().Contains("RotateCommand"))
+            {
+                this.TurtleCommand = "Rotate";
+            }
+            else if (turtleCommand.ToString().Contains("SleepCommand"))
+            {
+                this.TurtleCommand = "Sleep";
+            }
+            else if (turtleCommand.ToString().Contains("PenUpCommand"))
+            {
+                this.TurtleCommand = "PenUp";
+            }
+            else if (turtleCommand.ToString().Contains("PenDownCommand"))
+            {
+                this.TurtleCommand = "PenDown";
+            }
+            else if (turtleCommand.ToString().Contains("ChangeColorCommand"))
+            {
+                this.TurtleCommand = "ChangeColor";
+            }
+            else if (turtleCommand.ToString().Contains("ChangeTrackSymbolCommand"))
+            {
+                this.TurtleCommand = "ChangeTrackSymbol";
+            }
+            else if (turtleCommand.ToString().Contains("ChangeTurtleSymbolCommand"))
+            {
+                this.TurtleCommand = "ChangeTurtleSymbol";
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
             }
 
             this.TurtleValue = turtleValue;

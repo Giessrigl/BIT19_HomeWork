@@ -54,7 +54,7 @@
                 throw new ArgumentNullException();
             }
            
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.RemoveAt(editorValue - 1);
+            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.RemoveAt(this.editorValue - 1);
         }
 
         public void Visit(InputHandler handler)
@@ -64,7 +64,7 @@
                 throw new ArgumentNullException();
             }
             
-            handler.EditorReadOut.RemoveAt(editorValue - 1);
+            handler.EditorReadOut.RemoveAt(this.editorValue - 1);
         }
 
         public void Visit(ErrorMessage errormessage)

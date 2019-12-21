@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿
+
 
 namespace TurtleGraphics
 {
     using System;
-    using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
+    using System.Threading;
 
     public class Executioner
     {
@@ -17,13 +12,11 @@ namespace TurtleGraphics
 
         private ExecutionRenderer Renderer;
         
-        private TurtleArguments currentargs;
+        private TurtleAttributes currentargs;
 
         private static object locker1 = new object();
 
         private static object locker2 = new object();
-
-        private static object locker3 = new object();
 
         private DrawBoard Board;
 
@@ -31,16 +24,16 @@ namespace TurtleGraphics
         { 
             get
             {
-                if (thread != null)
+                if (this.thread != null)
                 {
                     throw new NullReferenceException();
                 }
 
-                return !thread.IsAlive;
+                return !this.thread.IsAlive;
             }
         }
 
-        public Executioner(TurtleArguments args, DrawBoard board)
+        public Executioner(TurtleAttributes args, DrawBoard board)
         {
             this.currentargs = args;
             this.Renderer = new ExecutionRenderer();
@@ -51,7 +44,7 @@ namespace TurtleGraphics
         {
             ThreadStart threadDelegate = new ThreadStart(ExecuteCommands);
             this.thread = new Thread(threadDelegate);
-            thread.Start();
+            this.thread.Start();
         }
 
         private void ExecuteCommands()
@@ -60,16 +53,23 @@ namespace TurtleGraphics
             {
                 lock(locker1)
                 {
-                    Board.Accept(currentargs); // Tracks and Turtles are stamped on the drawboard
-                    Board.Accept(this.Renderer); // draws the tracks
+                    this.Board.Accept(this.currentargs); // Tracks and Turtles are stamped on the drawboard
+                    this.Board.Accept(this.Renderer); // draws the tracks
                 }
 
-                currentargs.Accept(currentargs.Turtle.Commands[0]); // command execution
-                currentargs.Turtle.Commands.RemoveAt(0); // remove executed command
+                if (this.currentargs.Turtle.Commands.Count > 0)
+                {
+                    this.currentargs.Accept(this.currentargs.Turtle.Commands[0]); // command execution
+                    this.currentargs.Turtle.Commands.RemoveAt(0); // remove executed command
+                }
             }
-            while (0 < currentargs.Turtle.Commands.Count);
+            while (0 < this.currentargs.Turtle.Commands.Count);
 
-            Board.Accept(currentargs); // Tracks and Turtles are stamped on the drawboard
+            lock (locker2)
+            {
+                this.Board.Accept(this.currentargs); // Tracks and Turtles are stamped on the drawboard
+                this.Board.Accept(this.Renderer); // draws the tracks
+            }
         }
     }
 }

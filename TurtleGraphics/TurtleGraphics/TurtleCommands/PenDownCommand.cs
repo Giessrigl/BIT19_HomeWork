@@ -2,8 +2,6 @@
 {
     using System;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
     public class PenDownCommand : ITurtleCommand
     {
@@ -44,10 +42,10 @@
 
         public string GetValue()
         {
-            return " ";
+            return string.Empty;
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             args.Draw = true;
         }

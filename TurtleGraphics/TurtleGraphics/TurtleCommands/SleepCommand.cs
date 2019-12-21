@@ -65,9 +65,9 @@
             return this.TurtleValue.ToString();
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
-            Thread.Sleep(TurtleValue);
+            Thread.Sleep(this.TurtleValue);
         }
 
         public void Visit(DrawBoard board)

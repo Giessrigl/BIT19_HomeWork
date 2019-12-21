@@ -112,9 +112,16 @@
             }
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
-            args.TurtleDirection = (args.TurtleDirection + TurtleValue) % 360;
+            if (args.TurtleDirection + this.TurtleValue < 0)
+            {
+                args.TurtleDirection = ((args.TurtleDirection + this.TurtleValue) % 360) *(-1);
+            }
+            else
+            {
+                args.TurtleDirection = (args.TurtleDirection + this.TurtleValue) % 360;
+            }
         }
 
         public void Visit(DrawBoard board)

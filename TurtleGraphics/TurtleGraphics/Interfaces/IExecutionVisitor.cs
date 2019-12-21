@@ -4,6 +4,6 @@
     {
         void Visit(DrawBoard board);
 
-        void Visit(TurtleArguments user);
+        void Visit(TurtleAttributes user);
     }
 }

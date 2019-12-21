@@ -76,7 +76,7 @@
             return this.turtleValue.ToString();
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             Position position = args.Position;
             switch(args.TurtleDirection)
@@ -97,9 +97,9 @@
             }
             args.Position = position;
 
-            if ((turtleValue) != 0)
+            if ((this.turtleValue) > 1)
             {
-                args.Turtle.Commands.Insert(1, new MoveCommand(turtleValue - 1));
+                args.Turtle.Commands.Insert(1, new MoveCommand(this.turtleValue - 1));
             }
             Thread.Sleep(1000);
         }

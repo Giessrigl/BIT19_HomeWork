@@ -79,7 +79,7 @@
     <Compile Include="EditorCommands\RunCommand.cs" />
     <Compile Include="TurtleCommands\SleepCommand.cs" />
     <Compile Include="Turtle.cs" />
-    <Compile Include="TurtleArguments.cs" />
+    <Compile Include="TurtleAttributes.cs" />
     <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>

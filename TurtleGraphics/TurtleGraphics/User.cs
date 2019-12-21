@@ -5,7 +5,7 @@
 
     public class User : IEditorVisitable
     {
-        public List<TurtleArguments> Turtleargs
+        public List<TurtleAttributes> Turtleargs
         {
             get;
             set;
@@ -13,8 +13,8 @@
 
         public User()
         {
-            this.Turtleargs = new List<TurtleArguments>();
-            TurtleArguments baseTurtle = new TurtleArguments();
+            this.Turtleargs = new List<TurtleAttributes>();
+            TurtleAttributes baseTurtle = new TurtleAttributes();
             this.Turtleargs.Add(baseTurtle);
         }
 

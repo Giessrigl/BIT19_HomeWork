@@ -2,8 +2,6 @@
 {
     using System;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
     using System.Collections.Generic;
 
     public class InputHandler : IEditorVisitable
@@ -39,7 +37,7 @@
                     {
                         newText += text[i];
                     }
-                    text = newText;
+                    this.text = newText;
                     
                     break;
 
@@ -60,7 +58,7 @@
                 default:
                     if (!char.IsControl(cki.KeyChar))
                     {
-                        text += cki.KeyChar;
+                        this.text += cki.KeyChar;
                     }
                     break;
             }

@@ -1,10 +1,7 @@
 ﻿namespace TurtleGraphics
 {
     using System;
-    using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
     public class ExecutionRenderer : IExecutionVisitor
     {
@@ -23,15 +20,15 @@
                 Console.Write($"{board.GetTrackChar(board.TrackPositions[i])}");
             }
 
-            for (int i = 0; i < board.BoardTurtles.Count; i++)
+            for (int i = 0; i < board.Turtles.Count; i++)
             {
-                Console.SetCursorPosition(board.BoardTurtles[i].Position.Left, board.BoardTurtles[i].Position.Top);
+                Console.SetCursorPosition(board.Turtles[i].Position.Left, board.Turtles[i].Position.Top);
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write($"{board.BoardTurtles[i].TurtleSymbol}");
+                Console.Write($"{board.Turtles[i].TurtleSymbol}");
             }
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             // do nothing.
         }

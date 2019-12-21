@@ -1,13 +1,36 @@
-﻿namespace TurtleGraphics.EditorCommands
+﻿//-----------------------------------------------------------------------
+// <copyright file="InsertCommand.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the InsertCommand class.
+// It ensures that a new turtle command can be inserted with a specified index to the currently available turtle command list.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics.EditorCommands
 {
     using System;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="InsertCommand"/> class.
+    /// </summary>
+    /// <param name="turtleCommand">The turtle command that should be added to the last added turtle.</param>
     public class InsertCommand : IEditorCommand
     {
-        private static string TurtleValue;
+        /// <summary>
+        /// Gets the value of the valid turtle command.
+        /// </summary>
+        /// <value>
+        /// The value of the valid turtle command.
+        /// </value>
+        private static string turtleValue;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private int EditorValue;
 
         public InsertCommand(int editorValue, ITurtleCommand turtleCommand)
@@ -107,7 +130,7 @@
 
             if (turtleCommand != null && editorValue > 0)
             {
-                TurtleValue = turtleCommand.GetValue();
+                turtleValue = turtleCommand.GetValue();
                 return new InsertCommand(editorValue, turtleCommand);
             }
             else
@@ -133,7 +156,7 @@
                 throw new ArgumentNullException();
             }
 
-            EditorLine line = new EditorLine(turtleCommand.ToString(), TurtleValue);
+            EditorLine line = new EditorLine(turtleCommand.ToString(), turtleValue);
             handler.EditorReadOut.Insert(EditorValue - 1, line);
         }
 

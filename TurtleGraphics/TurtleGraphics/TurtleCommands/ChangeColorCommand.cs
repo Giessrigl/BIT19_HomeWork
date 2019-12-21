@@ -30,7 +30,7 @@
 
             if (possibleCommands[1].ToLower() == "changecolor")
             {
-                string value = "";
+                string value = string.Empty;
                 if (possibleCommands[2].ToLower().Contains("dark"))
                 {
                     value += "Dark";
@@ -76,7 +76,7 @@
             return TurtleValue.ToString();
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             args.TrackColor = TurtleValue;
         }

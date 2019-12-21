@@ -38,7 +38,7 @@
         {
             Executioner executor;
 
-            foreach (TurtleArguments args in user.Turtleargs)
+            foreach (TurtleAttributes args in user.Turtleargs)
             {
                 executor = new Executioner(args, this.Board);
                 executor.Execute();
@@ -72,7 +72,7 @@
             if (handler.EditorReadOut.Count >= 1)
             {
                 handler.EditorReadOut.Clear();
-                handler.text = "";
+                handler.text = string.Empty;
             }
             else
             {

@@ -44,10 +44,10 @@
 
         public string GetValue()
         {
-            return " ";
+            return string.Empty;
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             args.Draw = false;
         }

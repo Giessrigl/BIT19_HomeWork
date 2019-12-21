@@ -50,7 +50,7 @@
             return this.TurtleValue.ToString();
         }
 
-        public void Visit(TurtleArguments args)
+        public void Visit(TurtleAttributes args)
         {
             args.TurtleSymbol = TurtleValue;
         }

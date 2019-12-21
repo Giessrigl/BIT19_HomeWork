@@ -3,17 +3,14 @@
 namespace TurtleGraphics
 {
     using System;
-    using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
     public class WindowSettings
     {
-        public void SetWindow(int width, int height)
+        public void SetWindowToMax()
         {
             Console.CursorVisible = false;
-            Console.SetWindowSize(width, height);
-            Console.SetBufferSize(width, height);
+            Console.SetWindowSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
+            Console.SetBufferSize(Console.LargestWindowWidth, Console.LargestWindowHeight);
         }
 
         public int GetWindowHeight()

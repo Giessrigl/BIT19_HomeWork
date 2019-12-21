@@ -5,9 +5,9 @@
     using TurtleGraphics.EditorCommands;
     using TurtleGraphics.TurtleCommands;
 
-    public class TurtleArguments : IExecutionVisitor, IExecutionVisitable
+    public class TurtleAttributes : IExecutionVisitor, IExecutionVisitable
     {
-        public TurtleArguments()
+        public TurtleAttributes()
         {
             this.Turtle = new Turtle();
             this.Position = new Position(0, 0);
@@ -92,7 +92,7 @@
         {
             Position position = this.Position;
 
-            if (Position.Top < 0)
+            if (this.Position.Top < 0)
             {
                 position = new Position(this.Position.Left, 0);
                 if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
@@ -103,7 +103,7 @@
                     }
                 }
             }
-            else if (Position.Top > board.Height)
+            else if (this.Position.Top > board.Height)
             {
                 position = new Position(this.Position.Left, board.Height);
                 if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
@@ -114,7 +114,7 @@
                     }
                 }
             }
-            else if (Position.Left < 0)
+            else if (this.Position.Left < 0)
             {
                 position = new Position(0, this.Position.Top);
                 if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
@@ -125,7 +125,7 @@
                     }
                 }
             }
-            else if (Position.Left > board.Width)
+            else if (this.Position.Left > board.Width)
             {
                 position = new Position(board.Width, this.Position.Top);
                 if (int.TryParse(this.Turtle.Commands[0].GetValue(), out int value))
@@ -145,13 +145,13 @@
                 board.SetTrackColor(this.Position, this.TrackColor);
             }
 
-            if (!(board.BoardTurtles.Contains(this)))
+            if (!(board.Turtles.Contains(this)))
             {
-                board.BoardTurtles.Add(this);
+                board.Turtles.Add(this);
             }
         }
 
-        public void Visit(TurtleArguments user)
+        public void Visit(TurtleAttributes user)
         {
 
         }
