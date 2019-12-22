@@ -1,29 +1,53 @@
-﻿namespace TurtleGraphics.TurtleCommands
+﻿//-----------------------------------------------------------------------
+// <copyright file="SleepCommand.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the SleepCommand class.
+// It ensures that the turtles thread waits a specific time in milliseconds before moving on.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics.TurtleCommands
 {
     using System;
-    using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
     using System.Threading;
+    using TurtleGraphics.Interfaces;
 
+    /// <summary>
+    /// Represents the <see cref="SleepCommand"/> class.
+    /// </summary>
     public class SleepCommand : ITurtleCommand
     {
-        private int TurtleValue;
+        /// <summary>
+        /// The amount of milliseconds the thread should wait.
+        /// </summary>
+        private int turtleValue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SleepCommand"/> class.
+        /// </summary>
+        /// <param name="turtleValue">The amount of milliseconds the thread should wait.</param>
         public SleepCommand(int turtleValue)
         {
-            this.TurtleValue = turtleValue;
+            this.turtleValue = turtleValue;
         }
 
+        /// <summary>
+        /// This method checks if the command line has a valid sleep command at the valid position.
+        /// </summary>
+        /// <param name="commandLine">The command line the user has written.</param>
+        /// <returns>An instanced sleep command if the command is valid or null if the command is not valid.</returns>
         public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
             {
                 throw new ArgumentNullException();
             }
+
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (3 > possibleCommands.Length)
+            if (possibleCommands.Length < 3)
             {
                 return null;
             }
@@ -34,7 +58,7 @@
 
                 if (int.TryParse(turtleValue, out int value))
                 {
-                    if (!(100 > value || value > 10000))
+                    if (!(value < 100 || value > 10000))
                     {
                         return new SleepCommand(value);
                     }
@@ -48,7 +72,7 @@
 
                 if (int.TryParse(turtleValue, out int value))
                 {
-                    if (!(100 > value || value > 10000))
+                    if (!(value < 100 || value > 10000))
                     {
                         return new SleepCommand(value);
                     }
@@ -60,16 +84,28 @@
             return null;
         }
 
+        /// <summary>
+        /// This method gets the amount of milliseconds of the sleep command as a string.
+        /// </summary>
+        /// <returns>The amount of milliseconds of the sleep command as a string.</returns>
         public string GetValue()
         {
-            return this.TurtleValue.ToString();
+            return this.turtleValue.ToString();
         }
 
-        public void Visit(TurtleAttributes args)
+        /// <summary>
+        /// Makes the thread of the turtle wait the specific amount of milliseconds before moving on.
+        /// </summary>
+        /// <param name="attributes">The attributes of the specific turtle.</param>
+        public void Visit(TurtleAttributes attributes)
         {
-            Thread.Sleep(this.TurtleValue);
+            Thread.Sleep(this.turtleValue);
         }
 
+        /// <summary>
+        /// Is not necessary.
+        /// </summary>
+        /// <param name="board">The object where the tracks and turtle positions are stored.</param>
         public void Visit(DrawBoard board)
         {
             // do nothing.

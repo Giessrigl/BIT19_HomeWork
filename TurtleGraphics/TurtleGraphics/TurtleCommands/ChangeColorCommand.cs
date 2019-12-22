@@ -1,19 +1,42 @@
-﻿namespace TurtleGraphics.TurtleCommands
+﻿//-----------------------------------------------------------------------
+// <copyright file="ChangeColorCommand.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the ChangeColorCommand class.
+// It ensures that the color of the turtles tracks will be changed.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics.TurtleCommands
 {
     using System;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
+    /// <summary>
+    /// Represents the <see cref="ChangeColorCommand"/> class.
+    /// </summary>
     public class ChangeColorCommand : ITurtleCommand
     {
-        private static ConsoleColor TurtleValue;
+        /// <summary>
+        /// The color that the tracks should be changed into.
+        /// </summary>
+        private static ConsoleColor turtleValue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChangeColorCommand"/> class.
+        /// </summary>
+        /// <param name="color">The color the tracks should be changed into.</param>
         public ChangeColorCommand(ConsoleColor color)
         {
-            TurtleValue = color;
+            turtleValue = color;
         }
 
+        /// <summary>
+        /// This method checks if the command line has a valid change color command at the valid position.
+        /// </summary>
+        /// <param name="commandLine">The command line the user has written.</param>
+        /// <returns>An instanced change color command if the command is valid or null if the command is not valid.</returns>
         public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
@@ -23,7 +46,7 @@
 
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if(2 >= possibleCommands.Length)
+            if (possibleCommands.Length <= 2)
             {
                 return null;
             }
@@ -71,16 +94,28 @@
             return null;
         }
 
+        /// <summary>
+        /// This method gets the color of the change color command as a string.
+        /// </summary>
+        /// <returns>The color of the change color command as a string.</returns>
         public string GetValue()
         {
-            return TurtleValue.ToString();
+            return turtleValue.ToString();
         }
 
-        public void Visit(TurtleAttributes args)
+        /// <summary>
+        /// Changes the turtles track color to the specified color.
+        /// </summary>
+        /// <param name="attributes">The attributes of the specific turtle.</param>
+        public void Visit(TurtleAttributes attributes)
         {
-            args.TrackColor = TurtleValue;
+            attributes.TrackColor = turtleValue;
         }
 
+        /// <summary>
+        /// Is not necessary.
+        /// </summary>
+        /// <param name="board">The object where the tracks and turtle positions are stored.</param>
         public void Visit(DrawBoard board)
         {
             // do nothing.

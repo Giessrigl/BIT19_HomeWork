@@ -166,7 +166,7 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
 
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Insert(this.editorValue - 1, this.TurtleCommand);
+            user.TurtleAttributes[user.TurtleAttributes.Count - 1].Turtle.Commands.Insert(this.editorValue - 1, this.TurtleCommand);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace TurtleGraphics.EditorCommands
         /// <param name="errormessage">The error message object where the message should be changed.</param>
         public void Visit(ErrorMessage errormessage)
         {
-            errormessage.Message = "We could not insert your command.";
+            errormessage.Message = "We could not insert your command at this position.";
         }
     }
 }

@@ -53,7 +53,7 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
 
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Clear();
+            user.TurtleAttributes[user.TurtleAttributes.Count - 1].Turtle.Commands.Clear();
         }
 
         /// <summary>

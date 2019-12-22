@@ -126,7 +126,7 @@ namespace TurtleGraphics.EditorCommands
         /// <param name="user">The object where all turtle commands are stored.</param>
         public void Visit(User user)
         {
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Add(this.TurtleCommand);
+            user.TurtleAttributes[user.TurtleAttributes.Count - 1].Turtle.Commands.Add(this.TurtleCommand);
         }
 
         /// <summary>

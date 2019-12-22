@@ -80,7 +80,7 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
            
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.RemoveAt(this.editorValue - 1);
+            user.TurtleAttributes[user.TurtleAttributes.Count - 1].Turtle.Commands.RemoveAt(this.editorValue - 1);
         }
 
         /// <summary>

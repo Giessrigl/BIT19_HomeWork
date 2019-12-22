@@ -71,7 +71,7 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
             
-            user.Turtleargs.Add(new TurtleAttributes());
+            user.TurtleAttributes.Add(new TurtleAttributes());
         }
 
         /// <summary>

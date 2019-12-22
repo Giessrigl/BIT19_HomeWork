@@ -70,7 +70,7 @@ namespace TurtleGraphics
         { 
             get
             {
-                if (this.thread != null)
+                if (this.thread == null)
                 {
                     throw new NullReferenceException();
                 }

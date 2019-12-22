@@ -72,10 +72,11 @@ namespace TurtleGraphics.EditorCommands
         {
             Executioner executor;
 
-            foreach (TurtleAttributes args in user.Turtleargs)
+            foreach (TurtleAttributes args in user.TurtleAttributes)
             {
                 executor = new Executioner(args, this.board);
                 executor.Execute();
+                this.executioners.Add(executor);
             }
 
             while (true)
