@@ -1,12 +1,27 @@
-﻿namespace TurtleGraphics
+﻿//-----------------------------------------------------------------------
+// <copyright file="EditorLine.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the EditorLine class.
+// It stores a valid turtle command for the command line as strings in the right format.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics
 {
     using System;
-    using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
+    /// <summary>
+    /// This class is responsible for storing a valid turtle command as strings in the correct format.
+    /// </summary>
     public class EditorLine
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EditorLine"/> class.
+        /// </summary>
+        /// <param name="turtleCommand">The valid turtle command as a string.</param>
+        /// <param name="turtleValue">The valid turtle value as a string.</param>
         public EditorLine(string turtleCommand, string turtleValue)
         {
             if (turtleCommand == null)
@@ -59,12 +74,24 @@
             this.TurtleValue = turtleValue;
         }
 
+        /// <summary>
+        /// Gets the valid turtle command as a string in the correct format.
+        /// </summary>
+        /// <value>
+        /// The correct formatted turtle command as a string.
+        /// </value>
         public string TurtleCommand
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the valid turtle command value as a string.
+        /// </summary>
+        /// <value>
+        /// The turtle command value as a string.
+        /// </value>
         public string TurtleValue
         {
             get;

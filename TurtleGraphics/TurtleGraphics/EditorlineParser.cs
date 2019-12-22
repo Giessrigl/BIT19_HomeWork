@@ -1,12 +1,29 @@
-﻿namespace TurtleGraphics
+﻿//-----------------------------------------------------------------------
+// <copyright file="EditorlineParser.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the EditorlineParser class.
+// It ensures that in the end the commands the user writes will only be valid commands.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics
 {
     using System;
-    using TurtleGraphics.Interfaces;
     using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
+    using TurtleGraphics.Interfaces;
 
+    /// <summary>
+    /// This class is responsible for proofing if the command the user writes is valid or not.
+    /// </summary>
     public class EditorlineParser
     {
+        /// <summary>
+        /// This method checks if the command line has a valid length and a valid editor command in the first place.
+        /// </summary>
+        /// <param name="commandLine">The command line the user has written.</param>
+        /// <returns>A full instanced command if the command line is valid or null if the command line is not valid.</returns>
         public IEditorCommand Parse(string commandLine)
         {
             if (string.IsNullOrWhiteSpace(commandLine))

@@ -29,10 +29,15 @@ namespace TurtleGraphics.EditorCommands
         private static string turtleValue;
 
         /// <summary>
-        /// 
+        /// The position at where the turtle command will be inserted.
         /// </summary>
-        private int EditorValue;
+        private int editorValue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InsertCommand"/> class.
+        /// </summary>
+        /// <param name="editorValue">The position at where the turtle command should be inserted.</param>
+        /// <param name="turtleCommand">The specified turtle command that should be inserted.</param>
         public InsertCommand(int editorValue, ITurtleCommand turtleCommand)
         {
             if (editorValue < 0)
@@ -40,16 +45,27 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentOutOfRangeException();
             }
 
-            this.EditorValue = editorValue;
-            this.turtleCommand = turtleCommand;
+            this.editorValue = editorValue;
+            this.TurtleCommand = turtleCommand;
         }
 
-        public ITurtleCommand turtleCommand
+        /// <summary>
+        /// Gets the turtle command that will be inserted.
+        /// </summary>
+        /// <value>
+        /// The turtle command that will be inserted.
+        /// </value>
+        public ITurtleCommand TurtleCommand
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// This method checks if the command line has a valid insert command at the valid position.
+        /// </summary>
+        /// <param name="commandLine">The command line the user has written.</param>
+        /// <returns>An instanced insert command if the command is valid or null if the command is not valid.</returns>
         public static IEditorCommand Parse(string commandLine)
         {
             if (commandLine == null)
@@ -59,7 +75,7 @@ namespace TurtleGraphics.EditorCommands
 
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (3 > possibleCommands.Length)
+            if (possibleCommands.Length < 3)
             {
                 return null;
             }
@@ -139,6 +155,10 @@ namespace TurtleGraphics.EditorCommands
             }
         }
 
+        /// <summary>
+        /// Inserts a turtle command to the current command list at the given position.
+        /// </summary>
+        /// <param name="user">The object where all turtle commands are stored.</param>
         public void Visit(User user)
         {
             if (user == null)
@@ -146,9 +166,13 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
 
-            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Insert(EditorValue - 1, turtleCommand);
+            user.Turtleargs[user.Turtleargs.Count - 1].Turtle.Commands.Insert(this.editorValue - 1, this.TurtleCommand);
         }
 
+        /// <summary>
+        /// This method inserts a new command line to the list of valid command lines at the given position.
+        /// </summary>
+        /// <param name="handler">The input handler object where the command line should be stored.</param>
         public void Visit(InputHandler handler)
         {
             if (handler == null)
@@ -156,10 +180,14 @@ namespace TurtleGraphics.EditorCommands
                 throw new ArgumentNullException();
             }
 
-            EditorLine line = new EditorLine(turtleCommand.ToString(), turtleValue);
-            handler.EditorReadOut.Insert(EditorValue - 1, line);
+            EditorLine line = new EditorLine(this.TurtleCommand.ToString(), turtleValue);
+            handler.EditorReadOut.Insert(this.editorValue - 1, line);
         }
 
+        /// <summary>
+        /// This method changes the error message objects message to a specific error message.
+        /// </summary>
+        /// <param name="errormessage">The error message object where the message should be changed.</param>
         public void Visit(ErrorMessage errormessage)
         {
             errormessage.Message = "We could not insert your command.";

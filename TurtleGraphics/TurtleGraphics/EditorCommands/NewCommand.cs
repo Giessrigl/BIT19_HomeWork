@@ -12,11 +12,17 @@ namespace TurtleGraphics.EditorCommands
 {
     using System;
     using TurtleGraphics.Interfaces;
-    using TurtleGraphics.EditorCommands;
-    using TurtleGraphics.TurtleCommands;
 
+    /// <summary>
+    /// This class is responsible for adding a new turtle to the list of turtles.
+    /// </summary>
     public class NewCommand : IEditorCommand
     {
+        /// <summary>
+        /// This method checks if the command line has a valid new command at the valid position.
+        /// </summary>
+        /// <param name="commandLine">The command line the user has written.</param>
+        /// <returns>An instanced new command if the command is valid or null if the command is not valid.</returns>
         public static IEditorCommand Parse(string commandLine)
         {
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -31,6 +37,10 @@ namespace TurtleGraphics.EditorCommands
             }
         }
 
+        /// <summary>
+        /// This method clears the current list of valid command lines.
+        /// </summary>
+        /// <param name="handler">The input handler object where the command line should be stored.</param>
         public void Visit(InputHandler handler)
         {
             if (handler == null)
@@ -41,7 +51,7 @@ namespace TurtleGraphics.EditorCommands
             if (handler.EditorReadOut.Count >= 1)
             {
                 handler.EditorReadOut.Clear();
-                handler.text = string.Empty;
+                handler.Text = string.Empty;
                 handler.PageNumber = 1;
             }
             else
@@ -50,6 +60,10 @@ namespace TurtleGraphics.EditorCommands
             }
         }
 
+        /// <summary>
+        /// Adds a new turtle to the list of turtles.
+        /// </summary>
+        /// <param name="user">The object where all turtle commands are stored.</param>
         public void Visit(User user)
         {
             if (user == null)
@@ -60,6 +74,10 @@ namespace TurtleGraphics.EditorCommands
             user.Turtleargs.Add(new TurtleAttributes());
         }
 
+        /// <summary>
+        /// This method changes the error message objects message to a specific error message.
+        /// </summary>
+        /// <param name="errormessage">The error message object where the message should be changed.</param>
         public void Visit(ErrorMessage errormessage)
         {
             errormessage.Message = "A new turtle could not be added. Please give this turtle at least one command.";

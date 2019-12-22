@@ -1,14 +1,27 @@
-﻿namespace TurtleGraphics
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExecutionRenderer.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the ExecutionRenderer class.
+// It ensures that the turtles and tracks will be displayed correctly in the console.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics
 {
     using System;
     using TurtleGraphics.Interfaces;
 
+    /// <summary>
+    /// This class is responsible for the console display of the turtle command execution part of the application.
+    /// </summary>
     public class ExecutionRenderer : IExecutionVisitor
     {
-        public ExecutionRenderer()
-        {
-        }
-
+        /// <summary>
+        /// Displays the turtles and tracks of the specific draw board in the console.
+        /// </summary>
+        /// <param name="board">The draw board where the turtles and tracks are stored.</param>
         public void Visit(DrawBoard board)
         {
             Console.Clear();
@@ -28,7 +41,11 @@
             }
         }
 
-        public void Visit(TurtleAttributes args)
+        /// <summary>
+        /// Is not necessary.
+        /// </summary>
+        /// <param name="attributes">The attributes of a turtle.</param>
+        public void Visit(TurtleAttributes attributes)
         {
             // do nothing.
         }

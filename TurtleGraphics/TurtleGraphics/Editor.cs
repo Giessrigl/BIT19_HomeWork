@@ -84,9 +84,9 @@ namespace TurtleGraphics
             switch (cki.Key)
             {
                 case ConsoleKey.Enter:
-                    if (!string.IsNullOrWhiteSpace(this.handler.text))
+                    if (!string.IsNullOrWhiteSpace(this.handler.Text))
                     {
-                        IEditorCommand command = this.parser.Parse(this.handler.text);
+                        IEditorCommand command = this.parser.Parse(this.handler.Text);
                         this.errorMessage.Message = string.Empty;
 
                         if (command == null)
@@ -97,7 +97,7 @@ namespace TurtleGraphics
                         {
                             try
                             {
-                                this.handler.text = string.Empty;
+                                this.handler.Text = string.Empty;
                                 this.handler.Accept(command);
                                 this.user.Accept(command);
                             }

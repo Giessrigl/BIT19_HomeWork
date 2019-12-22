@@ -1,12 +1,32 @@
-﻿namespace TurtleGraphics
+﻿//-----------------------------------------------------------------------
+// <copyright file="ErrorMessage.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the ErrorMessage class.
+// It stores a specific string to explain the user what he/she did wrong.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics
 {
     using System;
     using TurtleGraphics.Interfaces;
 
-    public class ErrorMessage: IEditorVisitable
+    /// <summary>
+    /// This class stores a specific string to explain the user what he/she did wrong.
+    /// </summary>
+    public class ErrorMessage : IEditorVisitable
     {
-        public string Message;
+        /// <summary>
+        /// The error message for the user.
+        /// </summary>
+        private string message;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorMessage"/> class.
+        /// </summary>
+        /// <param name="message">The message the user should to see.</param>
         public ErrorMessage(string message)
         {
             if (message == null)
@@ -17,6 +37,34 @@
             this.Message = message;
         }
 
+        /// <summary>
+        /// Gets or sets a message for the user.
+        /// </summary>
+        /// <value>
+        /// The message for the user.
+        /// </value>
+        public string Message
+        {
+            get
+            {
+                return this.message;
+            }
+
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                this.message = value;
+            }
+        }
+
+        /// <summary>
+        /// Invites the visiting object in.
+        /// </summary>
+        /// <param name="visitor">The visiting object.</param>
         public void Accept(IEditorVisitor visitor)
         {
             visitor.Visit(this);

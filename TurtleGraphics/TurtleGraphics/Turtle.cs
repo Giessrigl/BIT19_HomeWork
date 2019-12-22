@@ -1,20 +1,40 @@
-﻿namespace TurtleGraphics
+﻿//-----------------------------------------------------------------------
+// <copyright file="Turtle.cs" company="FH Wiener Neustadt">
+//     Copyright (c) FH Wiener Neustadt. All rights reserved.
+// </copyright>
+// <author>Christian Giessrigl</author>
+// <summary>
+// This file contains the Turtle class.
+// </summary>
+//-----------------------------------------------------------------------
+namespace TurtleGraphics
 {
     using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
 
+    /// <summary>
+    /// Represents the <see cref="Turtle"/> class.
+    /// </summary>
     public class Turtle
     {
-        public List<ITurtleCommand> Commands
-        {
-            get;
-            set;
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Turtle"/> class.
+        /// </summary>
         public Turtle()
         {
             this.Commands = new List<ITurtleCommand>();
         }
 
+        /// <summary>
+        /// Gets or sets the turtle commands this turtle has.
+        /// </summary>
+        /// <value>
+        /// The turtle commands this turtle has.
+        /// </value>
+        public List<ITurtleCommand> Commands
+        {
+            get;
+            set;
+        }
     }
 }

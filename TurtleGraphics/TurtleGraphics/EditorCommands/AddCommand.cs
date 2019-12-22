@@ -54,7 +54,7 @@ namespace TurtleGraphics.EditorCommands
         }
 
         /// <summary>
-        /// This method checks if the command line has a valid turtle command at the valid position.
+        /// This method checks if the command line has a valid add command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
         /// <returns>An instanced add command if the command is valid or null if the command is not valid.</returns>
@@ -140,7 +140,7 @@ namespace TurtleGraphics.EditorCommands
         }
 
         /// <summary>
-        /// This method changes the error message objects message to a specified error message.
+        /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
         public void Visit(ErrorMessage errormessage)
