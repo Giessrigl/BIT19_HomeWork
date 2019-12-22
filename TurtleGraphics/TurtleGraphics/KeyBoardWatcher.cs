@@ -24,12 +24,16 @@ namespace TurtleGraphics
         private Thread thread;
 
         /// <summary>
+        /// Arguments for the thread that monitors for pressed keys.
+        /// </summary>
+        private KeyboardWatcherThreadArguments threadArguments;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="KeyBoardWatcher"/> class.
         /// </summary>
         public KeyBoardWatcher()
         {
-            this.Thread = new Thread(this.Worker);
-            this.Thread.Start();
+            this.threadArguments = new KeyboardWatcherThreadArguments();
         }
 
         /// <summary>
@@ -38,24 +42,35 @@ namespace TurtleGraphics
         public event EventHandler<OnKeyPressedEventArgs> OnKeyPressed;
 
         /// <summary>
-        /// Gets or sets the thread that monitors for pressed keys.
+        /// Starts the watcher.
         /// </summary>
-        private Thread Thread
+        /// <exception cref="InvalidOperationException">
+        /// Is thrown if the watcher is already started.
+        /// </exception>
+        public void Start()
         {
-            get
+            if (this.thread != null && this.thread.IsAlive)
             {
-                return this.thread;
+                throw new InvalidOperationException("The KeyboardWatcher is already running.");
             }
 
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException();
-                }
+            this.threadArguments.Exit = false;
+            this.thread = new Thread(this.Worker);
+            this.thread.Start(this.threadArguments);
+        }
 
-                this.thread = value;
+        /// <summary>
+        /// Stops the watcher.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Is thrown if the watcher is already stopped.</exception>
+        public void Stop()
+        {
+            if (this.thread == null || !this.thread.IsAlive)
+            {
+                throw new InvalidOperationException("The KeyboardWatcher is already stopped.");
             }
+
+            this.threadArguments.Exit = true;
         }
 
         /// <summary>
@@ -73,9 +88,20 @@ namespace TurtleGraphics
         /// <summary>
         /// Represents the worker thread that monitors pressed keys.
         /// </summary>
-        private void Worker()
+        /// <param name="data">The thread arguments.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// Is thrown if the specified instance for data is not of type <see cref="KeyboardWatcherThreadArguments"/>.
+        /// </exception>
+        private void Worker(object data)
         {
-            while (true)
+            if (!(data is KeyboardWatcherThreadArguments))
+            {
+                throw new ArgumentOutOfRangeException(nameof(data), $"The specified data must be an instance of the {nameof(KeyboardWatcherThreadArguments)} class");
+            }
+
+            KeyboardWatcherThreadArguments args = (KeyboardWatcherThreadArguments)data;
+
+            while (!args.Exit)
             {
                 ConsoleKeyInfo cki = Console.ReadKey(true);
                 this.FireOnKeyPressed(new OnKeyPressedEventArgs(cki));

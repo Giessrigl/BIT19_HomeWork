@@ -36,7 +36,12 @@ namespace TurtleGraphics.TurtleCommands
         /// This method checks if the command line has a valid change turtle symbol command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
-        /// <returns>An instanced change turtle symbol command if the command is valid or null if the command is not valid.</returns>
+        /// <returns>
+        /// An instanced change turtle symbol command if the command is valid or null if the command is not valid.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If commandLine is null.
+        /// </exception>
         public static ITurtleCommand Parse(string commandLine)
         {
             if (commandLine == null)
@@ -80,8 +85,16 @@ namespace TurtleGraphics.TurtleCommands
         /// Changes the turtles symbol to the specified symbol.
         /// </summary>
         /// <param name="attributes">The attributes of the specific turtle.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If attributes is null.
+        /// </exception>
         public void Visit(TurtleAttributes attributes)
         {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             attributes.TurtleSymbol = this.turtleValue;
         }
 
@@ -89,8 +102,16 @@ namespace TurtleGraphics.TurtleCommands
         /// Is not necessary.
         /// </summary>
         /// <param name="board">The object where the tracks and turtle positions are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If board is null.
+        /// </exception>
         public void Visit(DrawBoard board)
         {
+            if (board == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             // do nothing.
         }
     }

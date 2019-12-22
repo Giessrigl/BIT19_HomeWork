@@ -20,31 +20,6 @@ namespace TurtleGraphics.EditorCommands
     public class RunCommand : IEditorCommand
     {
         /// <summary>
-        /// The list of the executioner objects that execute the turtles commands for each turtle.
-        /// </summary>
-        private List<Executioner> executioners;
-
-        /// <summary>
-        /// The settings of the draw board and the console window.
-        /// </summary>
-        private WindowSettings options;
-
-        /// <summary>
-        /// The draw board in which the turtles and tracks will be stored.
-        /// </summary>
-        private DrawBoard board;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RunCommand"/> class.
-        /// </summary>
-        public RunCommand()
-        {
-            this.executioners = new List<Executioner>();
-            this.options = new WindowSettings();
-            this.board = new DrawBoard(this.options.GetWindowWidth(), this.options.GetWindowHeight());
-        }
-
-        /// <summary>
         /// This method checks if the command line has a valid run command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
@@ -70,28 +45,26 @@ namespace TurtleGraphics.EditorCommands
         /// <param name="user">The object where all turtle commands are stored.</param>
         public void Visit(User user)
         {
-            Executioner executor;
-
-            foreach (TurtleAttributes args in user.TurtleAttributes)
-            {
-                executor = new Executioner(args, this.board);
-                executor.Execute();
-                this.executioners.Add(executor);
-            }
-
-            while (true)
-            {
-                KeyBoardWatcher keyBoardWatcher = new KeyBoardWatcher();
-                keyBoardWatcher.OnKeyPressed += this.CheckIfThreadsFinished;
-            }
+            user.FinishEditing();
         }
 
         /// <summary>
         /// This method clears the valid command list of the editor.
         /// </summary>
         /// <param name="handler">The input handler object where the command line should be stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the handler is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If Editor.ReadOut.Count is less than one.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
+            if (handler == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             if (handler.EditorReadOut.Count >= 1)
             {
                 handler.EditorReadOut.Clear();
@@ -107,38 +80,17 @@ namespace TurtleGraphics.EditorCommands
         /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
-            errormessage.Message = "Every turtle must have at least one command to start drawing.";
-        }
-
-        /// <summary>
-        /// Proofs if all executioners have finished working before it calls a method to stop the application.
-        /// </summary>
-        /// <param name="sender">The sending object.</param>
-        /// <param name="eventArgs">The key the user pressed.</param>
-        private void CheckIfThreadsFinished(object sender, OnKeyPressedEventArgs eventArgs)
-        {
-            bool result = true;
-            foreach (Executioner executioner in this.executioners)
+            if (errormessage == null)
             {
-                if (result)
-                {
-                    result = executioner.IsFinished;
-                }
-                else
-                {
-                    this.TerminateApplication();
-                }
+                throw new ArgumentNullException();
             }
-        }
 
-        /// <summary>
-        /// This method stops the application after a key is pressed and all executioners have finished working.
-        /// </summary>
-        private void TerminateApplication()
-        {
-            Environment.Exit(0);
+            errormessage.Message = "Every turtle must have at least one command to start drawing.";
         }
     }
 }

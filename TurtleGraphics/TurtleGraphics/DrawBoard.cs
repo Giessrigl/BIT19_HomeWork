@@ -30,12 +30,20 @@ namespace TurtleGraphics
         private ConsoleColor[,] boardTrackColors;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DrawBoard"/> class.
+        /// Initializes a new instance of the <see cref="DrawBoard" /> class.
         /// </summary>
         /// <param name="width">The width of the draw board.</param>
         /// <param name="height">The height of the draw board.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If width or height is less than zero.
+        /// </exception>
         public DrawBoard(int width, int height)
         {
+            if (width < 0 || height < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             this.boardTracks = new char[width, height];
             this.boardTrackColors = new ConsoleColor[width, height];
             this.TrackPositions = new List<Position>();
@@ -111,11 +119,6 @@ namespace TurtleGraphics
         /// <param name="character">The character that should be at the specified position.</param>
         public void SetTrackChar(Position position, char character)
         {
-            if (character == '\0')
-            {
-                throw new ArgumentNullException();
-            }
-
             this.boardTracks[position.Left, position.Top] = character;
 
             if (!this.TrackPositions.Contains(position))
@@ -148,6 +151,9 @@ namespace TurtleGraphics
         /// Invites the specified visitor to visit this class.
         /// </summary>
         /// <param name="visitor">The class that wants to visit this class.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If visitor is null.
+        /// </exception>
         public void Accept(IExecutionVisitor visitor)
         {
             if (visitor == null)

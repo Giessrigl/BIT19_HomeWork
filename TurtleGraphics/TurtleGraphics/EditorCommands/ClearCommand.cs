@@ -22,6 +22,9 @@ namespace TurtleGraphics.EditorCommands
         /// This method checks if the command line has a valid clear command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the commandLine is null.
+        /// </exception>
         /// <returns>An instanced clear command if the command is valid or null if the command is not valid.</returns>
         public static IEditorCommand Parse(string commandLine)
         {
@@ -46,6 +49,9 @@ namespace TurtleGraphics.EditorCommands
         /// Removes all the current turtle commands of the command list.
         /// </summary>
         /// <param name="user">The object where all turtle commands are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the user is null.
+        /// </exception>
         public void Visit(User user)
         {
             if (user == null)
@@ -60,6 +66,9 @@ namespace TurtleGraphics.EditorCommands
         /// Removes all the current command lines of the current valid command list.
         /// </summary>
         /// <param name="handler">The input handler object where the command line should be stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the handler is null.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
             if (handler == null)
@@ -75,8 +84,16 @@ namespace TurtleGraphics.EditorCommands
         /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
+            if (errormessage == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             errormessage.Message = "We could not clear the command list.";
         }
     }

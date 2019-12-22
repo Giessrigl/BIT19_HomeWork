@@ -20,8 +20,8 @@ namespace TurtleGraphics
         /// </summary>
         public static void Main()
         {
-            Editor overseer = new Editor();
-            overseer.Start();
+            Application application = new Application();
+            application.Start();
         }
     }
 }

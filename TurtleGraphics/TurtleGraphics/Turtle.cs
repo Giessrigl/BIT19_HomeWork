@@ -9,6 +9,7 @@
 //-----------------------------------------------------------------------
 namespace TurtleGraphics
 {
+    using System;
     using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
 
@@ -31,6 +32,9 @@ namespace TurtleGraphics
         /// <value>
         /// The turtle commands this turtle has.
         /// </value>
+        /// <exception cref="ArgumentNullException">
+        /// If value is null.
+        /// </exception>
         public List<ITurtleCommand> Commands
         {
             get;

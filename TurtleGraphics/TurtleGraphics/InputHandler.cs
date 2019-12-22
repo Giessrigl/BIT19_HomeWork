@@ -45,6 +45,9 @@ namespace TurtleGraphics
         /// <value>
         /// The current page of the current valid command list.
         /// </value>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If value is less than zero.
+        /// </exception>
         public int PageNumber
         {
             get
@@ -81,6 +84,9 @@ namespace TurtleGraphics
         /// <value>
         /// The current written line of the user.
         /// </value>
+        /// <exception cref="ArgumentNullException">
+        /// If value is null.
+        /// </exception>
         public string Text
         {
             get
@@ -148,8 +154,16 @@ namespace TurtleGraphics
         /// Invites the specified visitor in.
         /// </summary>
         /// <param name="visitor">The visiting object.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If visitor is null.
+        /// </exception>
         public void Accept(IEditorVisitor visitor)
         {
+            if (visitor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             visitor.Visit(this);
         }
     }

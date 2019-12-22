@@ -10,6 +10,7 @@
 //-----------------------------------------------------------------------
 namespace TurtleGraphics
 {
+    using System;
     using System.Collections.Generic;
     using TurtleGraphics.Interfaces;
 
@@ -26,6 +27,7 @@ namespace TurtleGraphics
             this.TurtleAttributes = new List<TurtleAttributes>();
             TurtleAttributes baseTurtle = new TurtleAttributes();
             this.TurtleAttributes.Add(baseTurtle);
+            this.EditingIsFinished = false;
         }
 
         /// <summary>
@@ -41,12 +43,40 @@ namespace TurtleGraphics
         }
 
         /// <summary>
+        /// Gets a value indicating whether true if the editing part is finished, false if not.
+        /// </summary>
+        /// <value>
+        /// True if the editing part is finished, false if not.
+        /// </value>
+        public bool EditingIsFinished 
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Invites the visiting object in.
         /// </summary>
         /// <param name="visitor">The visiting object.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If visitor is null.
+        /// </exception>
         public void Accept(IEditorVisitor visitor)
         {
+            if (visitor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             visitor.Visit(this);
+        }
+
+        /// <summary>
+        /// Finishes the editor part with changing editing is finished to true.
+        /// </summary>
+        public void FinishEditing()
+        {
+            this.EditingIsFinished = true;
         }
     }
 }

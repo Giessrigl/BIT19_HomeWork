@@ -23,7 +23,12 @@ namespace TurtleGraphics
         /// This method checks if the command line has a valid length and a valid editor command in the first place.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
-        /// <returns>A full instanced command if the command line is valid or null if the command line is not valid.</returns>
+        /// <returns>
+        /// A full instanced command if the command line is valid or null if the command line is not valid.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If commandLine is null or whitespace.
+        /// </exception>
         public IEditorCommand Parse(string commandLine)
         {
             if (string.IsNullOrWhiteSpace(commandLine))

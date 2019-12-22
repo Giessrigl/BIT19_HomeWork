@@ -17,7 +17,6 @@ namespace TurtleGraphics.EditorCommands
     /// <summary>
     /// Initializes a new instance of the <see cref="InsertCommand"/> class.
     /// </summary>
-    /// <param name="turtleCommand">The turtle command that should be added to the last added turtle.</param>
     public class InsertCommand : IEditorCommand
     {
         /// <summary>
@@ -38,6 +37,9 @@ namespace TurtleGraphics.EditorCommands
         /// </summary>
         /// <param name="editorValue">The position at where the turtle command should be inserted.</param>
         /// <param name="turtleCommand">The specified turtle command that should be inserted.</param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If the editor value is less than zero.
+        /// </exception>
         public InsertCommand(int editorValue, ITurtleCommand turtleCommand)
         {
             if (editorValue < 0)
@@ -65,6 +67,9 @@ namespace TurtleGraphics.EditorCommands
         /// This method checks if the command line has a valid insert command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the commandLine is null.
+        /// </exception>
         /// <returns>An instanced insert command if the command is valid or null if the command is not valid.</returns>
         public static IEditorCommand Parse(string commandLine)
         {
@@ -159,6 +164,9 @@ namespace TurtleGraphics.EditorCommands
         /// Inserts a turtle command to the current command list at the given position.
         /// </summary>
         /// <param name="user">The object where all turtle commands are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the user is null.
+        /// </exception>
         public void Visit(User user)
         {
             if (user == null)
@@ -173,6 +181,9 @@ namespace TurtleGraphics.EditorCommands
         /// This method inserts a new command line to the list of valid command lines at the given position.
         /// </summary>
         /// <param name="handler">The input handler object where the command line should be stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the handler is null.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
             if (handler == null)
@@ -188,8 +199,16 @@ namespace TurtleGraphics.EditorCommands
         /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
+            if (errormessage == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             errormessage.Message = "We could not insert your command at this position.";
         }
     }

@@ -24,9 +24,12 @@ namespace TurtleGraphics
         private string message;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ErrorMessage"/> class.
+        /// Initializes a new instance of the <see cref="ErrorMessage" /> class.
         /// </summary>
         /// <param name="message">The message the user should to see.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If message is null.
+        /// </exception>
         public ErrorMessage(string message)
         {
             if (message == null)
@@ -43,6 +46,9 @@ namespace TurtleGraphics
         /// <value>
         /// The message for the user.
         /// </value>
+        /// <exception cref="ArgumentNullException">
+        /// If value is null.
+        /// </exception>
         public string Message
         {
             get
@@ -65,8 +71,16 @@ namespace TurtleGraphics
         /// Invites the visiting object in.
         /// </summary>
         /// <param name="visitor">The visiting object.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If visitor is null.
+        /// </exception>
         public void Accept(IEditorVisitor visitor)
         {
+            if (visitor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             visitor.Visit(this);
         }
     }

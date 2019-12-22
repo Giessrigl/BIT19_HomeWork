@@ -22,8 +22,16 @@ namespace TurtleGraphics
         /// Displays the turtles and tracks of the specific draw board in the console.
         /// </summary>
         /// <param name="board">The draw board where the turtles and tracks are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If board is null.
+        /// </exception>
         public void Visit(DrawBoard board)
         {
+            if (board == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             Console.Clear();
 
             for (int i = 0; i < board.TrackPositions.Count; i++)
@@ -45,8 +53,16 @@ namespace TurtleGraphics
         /// Is not necessary.
         /// </summary>
         /// <param name="attributes">The attributes of a turtle.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If attributes is null.
+        /// </exception>
         public void Visit(TurtleAttributes attributes)
         {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             // do nothing.
         }
     }

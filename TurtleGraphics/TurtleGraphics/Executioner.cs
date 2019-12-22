@@ -49,12 +49,24 @@ namespace TurtleGraphics
         private DrawBoard board;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Executioner"/> class.
+        /// Initializes a new instance of the <see cref="Executioner" /> class.
         /// </summary>
         /// <param name="attributes">The attributes of the turtle this class should work off.</param>
         /// <param name="board">The draw board where the turtle and its tracks will be stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If attributes or board is null.
+        /// </exception>
         public Executioner(TurtleAttributes attributes, DrawBoard board)
         {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException();
+            }
+            else if (board == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.currentAttributes = attributes;
             this.renderer = new ExecutionRenderer();
             this.board = board;
@@ -66,13 +78,16 @@ namespace TurtleGraphics
         /// <value>
         /// True if this executor is finished working, false if it still executes.
         /// </value>
+        /// <exception cref="ArgumentNullException">
+        /// If thread is null.
+        /// </exception>
         public bool IsFinished 
         { 
             get
             {
                 if (this.thread == null)
                 {
-                    throw new NullReferenceException();
+                    throw new ArgumentNullException();
                 }
 
                 return !this.thread.IsAlive;

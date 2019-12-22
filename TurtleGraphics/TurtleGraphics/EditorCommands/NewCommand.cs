@@ -22,9 +22,19 @@ namespace TurtleGraphics.EditorCommands
         /// This method checks if the command line has a valid new command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
-        /// <returns>An instanced new command if the command is valid or null if the command is not valid.</returns>
+        /// <returns>
+        /// An instanced new command if the command is valid or null if the command is not valid.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        /// If commandLine is null.
+        /// </exception>
         public static IEditorCommand Parse(string commandLine)
         {
+            if (commandLine == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             string[] possibleCommands = commandLine.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             
             if (possibleCommands.Length > 1)
@@ -41,6 +51,12 @@ namespace TurtleGraphics.EditorCommands
         /// This method clears the current list of valid command lines.
         /// </summary>
         /// <param name="handler">The input handler object where the command line should be stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If handler is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If EditorReadOut.Count is less than one.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
             if (handler == null)
@@ -64,6 +80,9 @@ namespace TurtleGraphics.EditorCommands
         /// Adds a new turtle to the list of turtles.
         /// </summary>
         /// <param name="user">The object where all turtle commands are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If user is null.
+        /// </exception>
         public void Visit(User user)
         {
             if (user == null)
@@ -78,8 +97,16 @@ namespace TurtleGraphics.EditorCommands
         /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
+            if (errormessage == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             errormessage.Message = "A new turtle could not be added. Please give this turtle at least one command.";
         }
     }

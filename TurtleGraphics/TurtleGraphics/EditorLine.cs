@@ -18,10 +18,16 @@ namespace TurtleGraphics
     public class EditorLine
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EditorLine"/> class.
+        /// Initializes a new instance of the <see cref="EditorLine" /> class.
         /// </summary>
         /// <param name="turtleCommand">The valid turtle command as a string.</param>
         /// <param name="turtleValue">The valid turtle value as a string.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If turtleCommand or turtleValue is null.
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If turtleCommand is not a valid command.
+        /// </exception>
         public EditorLine(string turtleCommand, string turtleValue)
         {
             if (turtleCommand == null)

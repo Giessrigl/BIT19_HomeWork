@@ -65,6 +65,9 @@ namespace TurtleGraphics
         /// <value>
         /// The direction of this turtle.
         /// </value>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// If value is not valid.
+        /// </exception>
         public int TurtleDirection
         {
             get
@@ -147,8 +150,16 @@ namespace TurtleGraphics
         /// Invites the visiting object in.
         /// </summary>
         /// <param name="visitor">The visiting object.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If visitor is null.
+        /// </exception>
         public void Accept(IExecutionVisitor visitor)
         {
+            if (visitor == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             visitor.Visit(this);
         }
 
@@ -156,8 +167,16 @@ namespace TurtleGraphics
         /// This method ensures that the turtle is inside the draw board and stores the tracks and the turtle in the draw board.
         /// </summary>
         /// <param name="board">The object that should be visited.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If board is null.
+        /// </exception>
         public void Visit(DrawBoard board)
         {
+            if (board == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             Position position = this.Position;
 
             if (this.Position.Top < 0)
@@ -207,7 +226,6 @@ namespace TurtleGraphics
 
             this.Position = position;
 
-            // Stamp the current track
             if (this.Draw == true) 
             {
                 board.SetTrackChar(this.Position, this.TrackSymbol);
@@ -224,8 +242,15 @@ namespace TurtleGraphics
         /// Is not necessary.
         /// </summary>
         /// <param name="user">The object that should be visited.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If user is null.
+        /// </exception>
         public void Visit(TurtleAttributes user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
         }
     }
 }

@@ -22,8 +22,16 @@ namespace TurtleGraphics
         /// This method writes all instructions, valid commands and the users current input into the console.
         /// </summary>
         /// <param name="handler">The input handler object of where the commands will be written into the console.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If handler is null.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
+            if (handler == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             int overwrite = 0;
             if (handler.Text.Length > Console.WindowWidth)
             {
@@ -89,8 +97,19 @@ namespace TurtleGraphics
         /// Is not necessary.
         /// </summary>
         /// <param name="user">The object where all turtle commands are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If user is null.
+        /// </exception>
+        /// <exception cref="NotImplementedException">
+        /// If method is called.
+        /// </exception>
         public void Visit(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             throw new NotImplementedException();
         }
 
@@ -98,8 +117,16 @@ namespace TurtleGraphics
         /// This method writes the specific error message into the console.
         /// </summary>
         /// <param name="errormessage">The error message object of where the message will be written.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
+            if (errormessage == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             Console.SetCursorPosition(0, 0);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write($"{errormessage.Message}");

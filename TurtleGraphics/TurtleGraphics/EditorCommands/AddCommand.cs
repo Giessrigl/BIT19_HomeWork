@@ -23,8 +23,16 @@ namespace TurtleGraphics.EditorCommands
         /// Initializes a new instance of the <see cref="AddCommand"/> class.
         /// </summary>
         /// <param name="turtleCommand">The turtle command that should be added to the last added turtle.</param>
+        /// /// <exception cref="ArgumentNullException">
+        /// If the turtle command is null.
+        /// </exception>
         public AddCommand(ITurtleCommand turtleCommand)
         {
+            if (turtleCommand == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             this.TurtleValue = turtleCommand.GetValue();
             this.TurtleCommand = turtleCommand;
         }
@@ -57,6 +65,9 @@ namespace TurtleGraphics.EditorCommands
         /// This method checks if the command line has a valid add command at the valid position.
         /// </summary>
         /// <param name="commandLine">The command line the user has written.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the commandLine is null.
+        /// </exception>
         /// <returns>An instanced add command if the command is valid or null if the command is not valid.</returns>
         public static IEditorCommand Parse(string commandLine)
         {
@@ -124,8 +135,16 @@ namespace TurtleGraphics.EditorCommands
         /// Adds the current turtle command to the command list.
         /// </summary>
         /// <param name="user">The object where all turtle commands are stored.</param>
+        /// <exception cref="ArgumentNullException">
+        /// If the user is null.
+        /// </exception>
         public void Visit(User user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             user.TurtleAttributes[user.TurtleAttributes.Count - 1].Turtle.Commands.Add(this.TurtleCommand);
         }
 
@@ -133,8 +152,16 @@ namespace TurtleGraphics.EditorCommands
         /// This method adds a new command line to the list of valid command lines.
         /// </summary>
         /// <param name="handler">The input handler object where the command line should be stored.</param>
+        /// /// <exception cref="ArgumentNullException">
+        /// If the handler is null.
+        /// </exception>
         public void Visit(InputHandler handler)
         {
+            if (handler == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             EditorLine line = new EditorLine(this.TurtleCommand.ToString(), this.TurtleValue);
             handler.EditorReadOut.Add(line);
         }
@@ -143,8 +170,16 @@ namespace TurtleGraphics.EditorCommands
         /// This method changes the error message objects message to a specific error message.
         /// </summary>
         /// <param name="errormessage">The error message object where the message should be changed.</param>
+        /// /// <exception cref="ArgumentNullException">
+        /// If the error message is null.
+        /// </exception>
         public void Visit(ErrorMessage errormessage)
         {
+            if (errormessage == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             errormessage.Message = "We could not add this entry.";
         }
     }

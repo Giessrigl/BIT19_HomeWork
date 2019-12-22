@@ -52,8 +52,9 @@
     <Compile Include="Interfaces\IEditorVisitor.cs" />
     <Compile Include="Interfaces\IExecutionVisitor.cs" />
     <Compile Include="KeyBoardWatcher.cs" />
+    <Compile Include="KeyboardWatcherThreadArguments.cs" />
     <Compile Include="OnKeyPressedEventArgs.cs" />
-    <Compile Include="Editor.cs" />
+    <Compile Include="Application.cs" />
     <Compile Include="TurtleCommands\ChangeColorCommand.cs" />
     <Compile Include="TurtleCommands\ChangeTrackSymbolCommand.cs" />
     <Compile Include="TurtleCommands\ChangeTurtleSymbolCommand.cs" />
