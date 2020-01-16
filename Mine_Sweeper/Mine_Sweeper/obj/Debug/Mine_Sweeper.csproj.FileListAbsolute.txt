@@ -1,0 +1,6 @@
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\obj\Debug\Mine_Sweeper.csprojAssemblyReference.cache
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\bin\Debug\Mine_Sweeper.exe.config
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\bin\Debug\Mine_Sweeper.exe
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\bin\Debug\Mine_Sweeper.pdb
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\obj\Debug\Mine_Sweeper.exe
+C:\Users\Giessrigl\source\repos\Mine_Sweeper\Mine_Sweeper\obj\Debug\Mine_Sweeper.pdb
