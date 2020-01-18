@@ -83,6 +83,11 @@ namespace Mine_Sweeper.KeyboardWatcher
 
             while (!args.Exit)
             {
+                if (!Console.KeyAvailable)
+                {
+                    Thread.Sleep(10);
+                    continue;
+                }
                 ConsoleKeyInfo cki = Console.ReadKey(true);
                 this.FireOnKeyPressed(new OnKeyPressedEventArgs(cki));
             }

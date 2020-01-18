@@ -15,6 +15,12 @@ namespace Mine_Sweeper
     {
         private Random rndm;
 
+        public bool IsGameFinished
+        {
+            get;
+            set;
+        }
+
         public bool IsCheatModeOn
         {
             get;
@@ -115,6 +121,11 @@ namespace Mine_Sweeper
                     width = 0;
                 }
             }
+        }
+
+        public void Visit(GameFinisher finisher)
+        {
+            throw new NotImplementedException();
         }
     }
 }

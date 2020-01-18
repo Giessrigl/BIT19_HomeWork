@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Mine_Sweeper.Commands;
 using Mine_Sweeper.Interfaces;
@@ -20,94 +21,61 @@ namespace Mine_Sweeper
 
         private ConsoleSizeWatcher consoleSizeWatcher;
 
+        private GameFinisher gameFinisher;
+
         private InputHandler inputhandler;
 
         private GameboardHandler gamehandler;
 
+        private Thread inputFinisherThread;
+
+        private Thread gameFinisherThread;
         /// <summary>
         /// The console renderer for this application.
         /// </summary>
         private IRenderer renderer;
 
-        private ConsoleSettings defaultSettings;
-
-        private ConsoleSettings newSettings;
+        private bool GameFinished;
 
         private bool QuitGame;
 
-        private string GameQuitMessage;
+        public bool QuitApp
+        {
+            get;
+            private set;
+        }
 
         public Application()
         {
-            this.defaultSettings = ConsoleSettings.Fetch();
             this.renderer = new ConsoleRenderer();
-            this.gamehandler = new GameboardHandler();
-            this.inputhandler = new InputHandler();
-            this.GameQuitMessage = string.Empty;
+            this.consoleSizeWatcher = new ConsoleSizeWatcher();
+            this.keyBoardWatcher = new KeyBoardWatcher();
+            this.QuitApp = false;
         }
 
         public void Start()
         {
-            ConsoleSettings.SetConsoleSizeToMax();
-            newSettings = ConsoleSettings.Fetch();
+            this.inputhandler = new InputHandler();
+            this.gamehandler = new GameboardHandler();
 
-            this.consoleSizeWatcher = new ConsoleSizeWatcher();
             this.consoleSizeWatcher.Start();
-            this.consoleSizeWatcher.OnConsoleSizeChanged += this.RenewInput; // Zum neu erstellen der Anzeige
+            this.consoleSizeWatcher.OnSizeChanged += this.RenewInput;
 
-            this.keyBoardWatcher = new KeyBoardWatcher();
             this.keyBoardWatcher.Start();
-            this.keyBoardWatcher.OnKeyPressed += this.UseKeyForInput; // Zum eingeben der Zahlen
+            this.keyBoardWatcher.OnKeyPressed += this.UseKeyForInput;
 
             inputhandler.Accept(renderer);
 
-            do
+            this.inputFinisherThread = new Thread(this.RunGame);
+            this.inputFinisherThread.Start();
+
+            while (true)
             {
-
+                if (this.QuitGame)
+                {
+                    break;
+                }
             }
-            while (!inputhandler.IsFinished);
-
-            this.consoleSizeWatcher.OnConsoleSizeChanged -= this.RenewInput; // wenn eingabe fertig
-            this.consoleSizeWatcher.OnConsoleSizeChanged += this.RenewGameBoard; // zum neu erstellen des gameboards
-
-            this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForInput; // wenn eingabe fertig
-            this.keyBoardWatcher.OnKeyPressed += this.UseKeyForGame; // Für bewegen auf spielfeld
-
-            this.inputhandler.Accept(this.gamehandler);
-
-            this.gamehandler.Gameboard.Accept(this.renderer);
-            this.gamehandler.Accept(this.renderer);
-            this.gamehandler.Cursor.Accept(this.renderer);
-
-            do
-            {
-
-            }
-            while (!QuitGame);
-
-            // Game Quitting Klasse
-            // accept (renderer) -> wenn Mine getroffen (Zeige alle minen)
-            // immer danach wenn key gedrückt -> (Console.Clear)
-
-            this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForGame; // wenn spiel beendet
-            this.consoleSizeWatcher.OnConsoleSizeChanged -= this.RenewGameBoard; // zum neu erstellen des gameboards
-
-
-
-            this.keyBoardWatcher.Stop();
-            this.consoleSizeWatcher.Stop();
-            ConsoleSettings.ChangeTo(this.defaultSettings);
-        }
-
-        public bool Stop()
-        {
-            // Abfragen ob neues Spiel
-            // wenn ja neues Spiel
-
-            // wenn nicht:
-
-            // wenn applikation beendet wird
-            return true;
         }
 
         private void UseKeyForInput(object sender, OnKeyPressedEventArgs eventArgs)
@@ -120,7 +88,6 @@ namespace Mine_Sweeper
             ConsoleKeyInfo cki = eventArgs.KeyInfo;
             inputhandler.AcceptKey(cki);
             inputhandler.Accept(renderer);
-
         }
 
         private void UseKeyForGame(object sender, OnKeyPressedEventArgs eventArgs)
@@ -176,22 +143,25 @@ namespace Mine_Sweeper
                 gamehandler.Accept(gamecommand);
                 this.gamehandler.Accept(this.renderer);
                 this.gamehandler.Cursor.Accept(this.renderer);
-            }
 
-            this.IsGameFinished();
+                this.IsGameFinished();
+            }
         }
 
-        private bool IsGameFinished()
+        private void IsGameFinished()
         {
             int flaggedMinescount = 0;
             int discoveredFieldcount = 0;
+            string GameQuitMessage;
 
             foreach (Field field in gamehandler.Gameboard.Gamefields)
             {
                 if (field.HasMine && field.ShowNumber)
                 {
-                    QuitGame = true;
-                    GameQuitMessage = "KABUMM! You tapped on a mine. Do you want to try a new game?";
+                    GameFinished = true;
+                    this.gamehandler.IsGameFinished = true;
+                    GameQuitMessage = "You lost because you tapped on a mine. Please press enter to continue.";
+                    gameFinisher = new GameFinisher(GameQuitMessage);
                     break;
                 }
 
@@ -200,8 +170,10 @@ namespace Mine_Sweeper
                     flaggedMinescount++;
                     if (flaggedMinescount >= gamehandler.Gameboard.MineCount)
                     {
-                        QuitGame = true;
-                        GameQuitMessage = "Congratulations! You win. Do you want to try a new game?";
+                        GameFinished = true;
+                        this.gamehandler.IsGameFinished = true;
+                        GameQuitMessage = "Congratulations! You win. Please press enter to continue.";
+                        gameFinisher = new GameFinisher(GameQuitMessage);
                         break;
                     }
                 }
@@ -211,35 +183,138 @@ namespace Mine_Sweeper
                     discoveredFieldcount++;
                     if (discoveredFieldcount >= gamehandler.Gameboard.Gamefields.Count - gamehandler.Gameboard.MineCount)
                     {
-                        QuitGame = true;
-                        GameQuitMessage = "Congratulations! You win. Do you want to try a new game?";
+                        GameFinished = true;
+                        this.gamehandler.IsGameFinished = true;
+                        GameQuitMessage = "Congratulations! You win. Please press enter to continue.";
+                        gameFinisher = new GameFinisher(GameQuitMessage);
                         break;
                     }
                 }
             }
+        }
+
+        private void RenewInput(object sender, OnSizeChangedEventArgs eventArgs)
+        {
+            if (eventArgs == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            inputhandler.Accept(renderer);
+        }
+
+        private void RenewGameBoard(object sender, OnSizeChangedEventArgs eventArgs)
+        {
+            if (eventArgs == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            this.gamehandler.Gameboard.Accept(this.renderer);
+            this.gamehandler.Accept(this.renderer);
+            this.gamehandler.Cursor.Accept(this.renderer);
+        }
+
+        private void RunGame()
+        {
+            do
+            {
+                Thread.Sleep(1000);
+            }
+            while (!inputhandler.IsFinished);
+
+            this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForInput;
+            this.consoleSizeWatcher.OnSizeChanged -= RenewInput;
+
+            this.inputhandler.Accept(renderer);
+            this.inputhandler.Accept(this.gamehandler);
+
+            this.gamehandler.Gameboard.Accept(this.renderer);
+            this.gamehandler.Accept(this.renderer);
+            this.gamehandler.Cursor.Accept(this.renderer);
+
+            this.keyBoardWatcher.OnKeyPressed += this.UseKeyForGame;
+            this.consoleSizeWatcher.OnSizeChanged += RenewGameBoard;
+
+            this.gameFinisherThread = new Thread(this.StopGame);
+            this.gameFinisherThread.Start();
+        }
+
+        private void StopGame()
+        {
+            do
+            {
+                Thread.Sleep(1000);
+            }
+            while (!GameFinished);
+
+            this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForGame; // wenn spiel beendet
+            this.consoleSizeWatcher.OnSizeChanged -= this.RenewGameBoard;
+
+            gamehandler.Accept(renderer);
+            gameFinisher.Accept(renderer);
+
+            this.keyBoardWatcher.OnKeyPressed += this.UseKeyForRestartAnswer;
+            this.consoleSizeWatcher.OnSizeChanged += this.RenewRestartQuestion;
+        }
+
+        private void UseKeyForRestartAnswer(object sender, OnKeyPressedEventArgs eventArgs)
+        {
+            if (eventArgs == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            ConsoleKeyInfo cki = eventArgs.KeyInfo;
+            gameFinisher.AcceptKey(cki);
+            gameFinisher.Accept(renderer);
+
+            if (this.gameFinisher.IsGameFinishAccepted)
+            {
+                this.keyBoardWatcher.OnKeyPressed += this.UseKeyForAppQuit;
+            }
+        }
+
+        private void UseKeyForAppQuit(object sender, OnKeyPressedEventArgs eventArgs)
+        {
+            if (eventArgs == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            ConsoleKeyInfo cki = eventArgs.KeyInfo;
+
+            if (cki.Key == ConsoleKey.J || cki.Key == ConsoleKey.N)
+            {
+                this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForRestartAnswer;
+                this.keyBoardWatcher.OnKeyPressed -= this.UseKeyForAppQuit;
+                this.consoleSizeWatcher.OnSizeChanged -= RenewRestartQuestion;
+
+                keyBoardWatcher.Stop();
+                consoleSizeWatcher.Stop();
+
+                if (cki.Key == ConsoleKey.J)
+                {
+                    QuitApp = false;
+                    QuitGame = true;
+                }
+                else if (cki.Key == ConsoleKey.N)
+                {
+                    QuitApp = true;
+                    QuitGame = true;
+                }
+            }
             
-            return false;
         }
 
-        private void RenewInput(object sender, OnConsoleSizeChangedEventArgs eventArgs)
+        private void RenewRestartQuestion(object sender, OnSizeChangedEventArgs eventArgs)
         {
             if (eventArgs == null)
             {
                 throw new ArgumentNullException();
             }
 
-            ConsoleSettings.ChangeTo(newSettings);
-
-        }
-
-        private void RenewGameBoard(object sender, OnConsoleSizeChangedEventArgs eventArgs)
-        {
-            if (eventArgs == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            ConsoleSettings.ChangeTo(newSettings);
+            gameFinisher.Accept(renderer);
         }
     }
 }

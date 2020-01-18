@@ -23,8 +23,8 @@ namespace Mine_Sweeper
             {
                 throw new ArgumentNullException();
             }
-            int maxheight = (Console.WindowHeight / 2 - 1) - 5;
-            int maxwidth = (Console.WindowWidth / 4 - 1) - 5;
+            int maxheight = ((Console.WindowHeight - 1 - 5 ) / 2);
+            int maxwidth = ((Console.WindowWidth - 1 - 5) / 4) ;
 
             Console.Clear();
             if (handler.Error == true)
@@ -72,8 +72,13 @@ namespace Mine_Sweeper
                     Console.Write("Please type in the amount of mines: ");
                     if (handler.Mines > 0)
                     {
-                        handler.IsFinished = true;
                         Console.Clear();
+                        handler.IsFinished = true;
+                        if (handler.Height * handler.Width >= 300)
+                        {
+                            Console.SetCursorPosition(0, 1);
+                            Console.Write("Please be patient. Calculating the mines may take some time.");
+                        }
                     }
                     else
                     {
@@ -94,7 +99,7 @@ namespace Mine_Sweeper
 
         public void Visit(GameboardHandler handler)
         {
-            if (handler.IsCheatModeOn)
+            if (handler.IsGameFinished)
             {
                 for (int i = 0; i < gameboardheight; i++)
                 {
@@ -104,75 +109,101 @@ namespace Mine_Sweeper
                         Field examinedField = handler.Gameboard.GetFieldAtPosition(new Position(j, i));
                         if (examinedField.HasMine)
                         {
-                            Console.BackgroundColor = ConsoleColor.White;
-                            Console.ForegroundColor = ConsoleColor.Black;
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.Write(" X ");
-                        }
-                        else
-                        {
-                            if (examinedField.Minenumber > 0)
-                            {
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write(" " + examinedField.Minenumber + " ");
-                                
-                            }
-                            else
-                            {
-                                Console.BackgroundColor = ConsoleColor.White;
-                                Console.ForegroundColor = ConsoleColor.Black;
-                                Console.Write("   ");
-                            }
                         }
                     }
                 }
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
-                for (int i = 0; i < gameboardheight; i++)
+                if (handler.IsCheatModeOn)
                 {
-                    for (int j = 0; j < gameboardwidth; j++)
+                    for (int i = 0; i < gameboardheight; i++)
                     {
-                        Field examinedField = handler.Gameboard.GetFieldAtPosition(new Position(j, i));
-                        Console.SetCursorPosition(j * 4 + 6, i * 2 + 1);
-                        if (examinedField.HasFlag)
+                        for (int j = 0; j < gameboardwidth; j++)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.Write(" X ");
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        else if (examinedField.ShowNumber)
-                        {
-                            Console.BackgroundColor = ConsoleColor.White;
-                            Console.ForegroundColor = ConsoleColor.Black;
                             Console.SetCursorPosition(j * 4 + 6, i * 2 + 1);
-                            if (examinedField.Minenumber > 0)
+                            Field examinedField = handler.Gameboard.GetFieldAtPosition(new Position(j, i));
+                            if (examinedField.HasMine)
                             {
-                                Console.Write(" " + examinedField.Minenumber + " ");
+                                Console.BackgroundColor = ConsoleColor.White;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.Write(" X ");
+                            }
+                            else
+                            {
+                                if (examinedField.Minenumber > 0)
+                                {
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write(" " + examinedField.Minenumber + " ");
+
+                                }
+                                else
+                                {
+                                    Console.BackgroundColor = ConsoleColor.White;
+                                    Console.ForegroundColor = ConsoleColor.Black;
+                                    Console.Write("   ");
+                                }
+                            }
+                        }
+                    }
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+                else
+                {
+                    for (int i = 0; i < gameboardheight; i++)
+                    {
+                        for (int j = 0; j < gameboardwidth; j++)
+                        {
+                            Field examinedField = handler.Gameboard.GetFieldAtPosition(new Position(j, i));
+                            Console.SetCursorPosition(j * 4 + 6, i * 2 + 1);
+                            if (examinedField.HasFlag)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Red;
+                                Console.Write(" X ");
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                            else if (examinedField.ShowNumber)
+                            {
+                                if (examinedField.HasMine)
+                                {
+                                    return;
+                                }
+                                Console.BackgroundColor = ConsoleColor.White;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                                Console.SetCursorPosition(j * 4 + 6, i * 2 + 1);
+                                if (examinedField.Minenumber > 0)
+                                {
+                                    Console.Write(" " + examinedField.Minenumber + " ");
+                                }
+                                else
+                                {
+                                    Console.Write("   ");
+                                }
+                                Console.BackgroundColor = ConsoleColor.Black;
+                                Console.ForegroundColor = ConsoleColor.White;
                             }
                             else
                             {
                                 Console.Write("   ");
                             }
-                            Console.BackgroundColor = ConsoleColor.Black;
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                        else
-                        {
-                            Console.Write("   ");
                         }
                     }
-                }
 
-                Console.ForegroundColor = ConsoleColor.White;
-                this.DrawField(handler.Cursor.Position.Left, handler.Cursor.Position.Top);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    this.DrawField(handler.Cursor.Position.Left, handler.Cursor.Position.Top);
+                }
             }
         }
 
         public void Visit(Gameboard board)
         {
+            Console.Clear();
+
             this.gameboardheight = board.Height;
             this.gameboardwidth = board.Width;
 
@@ -208,6 +239,35 @@ namespace Mine_Sweeper
         public void Visit(Field field)
         {
             this.DrawField(field.Position.Left, field.Position.Top);
+        }
+
+        public void Visit(GameFinisher finisher)
+        {
+            if (finisher.IsGameFinishAccepted)
+            {
+                if (finisher.IsAnswerCorrect)
+                {
+                    Console.Clear();
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.SetCursorPosition(0, 0);
+                    Console.Write("Do you want to play a new game?");
+
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.SetCursorPosition(0, 2);
+                    Console.Write(finisher.ErrorMessage);
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+            }
+            else
+            {
+                Console.SetCursorPosition(5, 0);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(finisher.QuitMessage);
+                Console.ForegroundColor = ConsoleColor.White;
+            }
         }
     }
 }

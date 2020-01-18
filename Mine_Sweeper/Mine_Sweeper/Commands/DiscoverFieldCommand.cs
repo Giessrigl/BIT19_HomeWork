@@ -26,13 +26,13 @@ namespace Mine_Sweeper.Commands
             Field examinedField = handler.Gameboard.GetFieldAtPosition(showAtPos);
             if (examinedField != null)
             {
-                if (examinedField.HasMine)
+                if (examinedField.HasFlag || examinedField.ShowNumber)
                 {
-                    examinedField.ShowNumber = true;
                     return;
                 }
-                else if (examinedField.HasFlag || examinedField.ShowNumber)
+                else if (examinedField.HasMine)
                 {
+                    examinedField.ShowNumber = true;
                     return;
                 }
                 else if (examinedField.Minenumber > 0)

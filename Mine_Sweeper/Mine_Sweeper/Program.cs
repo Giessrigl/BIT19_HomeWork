@@ -12,12 +12,13 @@ namespace Mine_Sweeper
     {
         public static void Main(string[] args)
         {
-            Application app = new Application();
+            Application app;
             do
             {
+                app = new Application();
                 app.Start();
             }
-            while (!app.Stop());
+            while (!app.QuitApp);
         }
     }
 }

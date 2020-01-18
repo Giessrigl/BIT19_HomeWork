@@ -9,5 +9,7 @@ namespace Mine_Sweeper.Interfaces
     public interface IInputVisitor
     {
         void Visit(InputHandler handler);
+
+        void Visit(GameFinisher finisher);
     }
 }
